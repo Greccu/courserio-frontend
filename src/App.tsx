@@ -2,6 +2,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
+  useHistory,
 } from 'react-router-dom';
 import "./App.css";
 import { createGlobalStyle } from "styled-components";
@@ -33,6 +34,7 @@ body, html, #root {
 export const UserContext = createContext<UserContextInterface>(null);
 
 function App() {
+  const history = useHistory();
   const context = useUser();
 
   useEffect(() => {
@@ -46,14 +48,12 @@ function App() {
 		}
 	}, []);
 
-	console.log(context.userInfo);
-
+  console.log(context);
   return (
     <>
       <GlobalStyle/>
       <UserContext.Provider value={context as UserContextInterface}>
         
-        <Router>
         {!!context.jwt ? (
           // registered users
           <>
@@ -67,6 +67,7 @@ function App() {
           ):(
             // not registered users
             <>
+              {console.log(!!context.jwt, "from false")}
               <Switch>
                 <Route exact path="/" component={Home}/>
                 <Route exact path="/login" component={Login}/>
@@ -76,7 +77,6 @@ function App() {
             </>
           )
         }
-        </Router >
       </UserContext.Provider>
       
     </>

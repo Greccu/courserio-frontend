@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {PrimaryColor, SecondaryColor, LogoColor, BackgroundColor, TextColor, FadedTextColor, FadedSecondaryColor, Fadedx2SecondaryColor} from "../../utils/theme"
+import {PrimaryColor} from "../../utils/theme"
 import backgroundImg from '../../assets/loginbg.png'
 
 export const HomeContainer = styled.div`

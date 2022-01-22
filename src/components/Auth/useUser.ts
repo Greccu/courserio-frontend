@@ -6,7 +6,7 @@ import { BackendUrl } from "../../utils/constants";
 
 export const useUser = () => {
     const [jwt,setJwt] = useState("");
-    const history = useHistory()
+    const history = useHistory();
 
     const [userInfo,setUserInfo] = useState({})
 
@@ -28,17 +28,11 @@ export const useUser = () => {
             const res = await axios.post(url, details, config);
             let token = res.data.access_token;
             const userObj = JSON.stringify({
-              access_token: token,
-              balance: res.data.balance,
-              email: res.data.email,
-              role: res.data.role,
-              profilePicture: res.data.profilePicture,
-              userName: res.data.userName,
-              phoneNumber: res.data.phoneNumber,
+              access_token: token
             });
             const parsedUserObj = JSON.parse(userObj)
-            await localStorage.setItem("JWTToken", token);
-            await localStorage.setItem("userInfo", userObj);
+            localStorage.setItem("JWTToken", token);
+            localStorage.setItem("userInfo", userObj);
             setJwt(token);
             setUserInfo(parsedUserObj);
             

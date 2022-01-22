@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {AppName} from "../../utils/constants";
 import { IconContext } from "react-icons/lib";
 import { animateScroll } from "react-scroll";
@@ -7,10 +7,12 @@ import {
   NavbarContainer,
   NavMenu,
   NavItem,
-  NavLinks,
-  NavLogo
+  NavLinkS,
+  NavLogo,
+  NavLinkR
 } from "./NavbarElements";
-import App from "../../App";
+import App, { UserContext } from "../../App";
+import { useUser } from "../Auth/useUser";
 
 const Navbar = (toggle:any) => {
   const [scrollNav, setScrollNav] = useState(false);
@@ -30,7 +32,8 @@ const Navbar = (toggle:any) => {
   const toggleHome = () => {
     animateScroll.scrollToTop();
   };
-
+  const context = useContext(UserContext);
+  console.log(context);
   return (
     <>
       <IconContext.Provider value={{ color: "#fff" }}>
@@ -39,75 +42,87 @@ const Navbar = (toggle:any) => {
             <NavLogo to="">
               {AppName}
             </NavLogo>
-            <NavMenu>
+            {!!context.jwt ? (
+              <NavMenu>
+                <NavItem>
+                  <NavLinkS
+                    to=""
+                    onClick={toggleHome}
+                    smooth={true}
+                    duration={500}
+                    spy={true}
+                    offset={-80}
+                  >
+                    Home
+                  </NavLinkS>
+                </NavItem>
+                <NavItem>
+                  <NavLinkS
+                    to="about"
+                    smooth={true}
+                    duration={500}
+                    spy={true}
+                    offset={-80}
+                  >
+                    About
+                  </NavLinkS>
+                </NavItem>
+                <NavItem>
+                  <NavLinkS
+                    to="education"
+                    smooth={true}
+                    duration={500}
+                    spy={true}
+                    offset={-80}
+                  >
+                    Education
+                  </NavLinkS>
+                </NavItem>
+                <NavItem>
+                  <NavLinkS
+                    to="skills"
+                    smooth={true}
+                    duration={500}
+                    spy={true}
+                    offset={-80}
+                  >
+                    Skills
+                  </NavLinkS>
+                </NavItem>
+                <NavItem>
+                  <NavLinkS
+                    to="projects"
+                    smooth={true}
+                    duration={500}
+                    spy={true}
+                    offset={-80}
+                  >
+                    Projects
+                  </NavLinkS>
+                </NavItem>
+                <NavItem>
+                  <NavLinkS
+                    to="others"
+                    smooth={true}
+                    duration={500}
+                    spy={true}
+                    offset={-80}
+                  >
+                    Others
+                  </NavLinkS>
+                </NavItem>
+              </NavMenu>
+            ):(<NavMenu
+              style={{justifyContent: "right"}}
+              >
               <NavItem>
-                <NavLinks
-                  to=""
-                  onClick={toggleHome}
-                  smooth={true}
-                  duration={500}
-                  spy={true}
-                  offset={-80}
-                >
-                  Home
-                </NavLinks>
-              </NavItem>
-              <NavItem>
-                <NavLinks
-                  to="about"
-                  smooth={true}
-                  duration={500}
-                  spy={true}
-                  offset={-80}
-                >
-                  About
-                </NavLinks>
-              </NavItem>
-              <NavItem>
-                <NavLinks
-                  to="education"
-                  smooth={true}
-                  duration={500}
-                  spy={true}
-                  offset={-80}
-                >
-                  Education
-                </NavLinks>
-              </NavItem>
-              <NavItem>
-                <NavLinks
-                  to="skills"
-                  smooth={true}
-                  duration={500}
-                  spy={true}
-                  offset={-80}
-                >
-                  Skills
-                </NavLinks>
-              </NavItem>
-              <NavItem>
-                <NavLinks
-                  to="projects"
-                  smooth={true}
-                  duration={500}
-                  spy={true}
-                  offset={-80}
-                >
-                  Projects
-                </NavLinks>
-              </NavItem>
-              <NavItem>
-                <NavLinks
-                  to="others"
-                  smooth={true}
-                  duration={500}
-                  spy={true}
-                  offset={-80}
-                >
-                  Others
-                </NavLinks>
-              </NavItem>
-            </NavMenu>
+                  <NavLinkR
+                    to="login"
+                  >
+                    Login
+                  </NavLinkR>
+                </NavItem>
+            </NavMenu>)}
           </NavbarContainer>
         </Nav>
       </IconContext.Provider>

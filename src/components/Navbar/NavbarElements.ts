@@ -59,7 +59,7 @@ export const NavItem = styled.li`
   height: 80px;
 `;
 
-export const NavLinks = styled(LinkS)`
+export const NavLinkS = styled(LinkS)`
   font-size: 20px;
   color: ${SecondaryColor};
   display: flex;
