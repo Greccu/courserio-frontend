@@ -1,25 +1,85 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from 'react-router-dom';
+import "./App.css";
+import { createGlobalStyle } from "styled-components";
+import { BackgroundColor, TextColor } from "./utils/theme";
+import { useUser } from './components/Auth/useUser';
+import React, {createContext, useEffect } from 'react';
+import { UserContextInterface } from './components/Auth/types';
+import Login from './components/Auth/Login';
+import Signup from './components/Auth/Signup';
+import NotFoundPage from './components/404';
+import Home from './pages/home';
+
+const GlobalStyle = createGlobalStyle`
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body, html, #root {
+  height: 100%;
+  font-family: -apple-system, Ubuntu , BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  background-color: ${BackgroundColor};
+  color: ${TextColor};
+}
+`;
+
+//@ts-ignore
+export const UserContext = createContext<UserContextInterface>(null);
 
 function App() {
+  const context = useUser();
+
+  useEffect(() => {
+		console.log(context.jwt);
+		let token = localStorage.getItem("JWTToken");
+		if (token != null) {
+			if (!context.jwt) {
+				context.setJwt(token); //@ts-ignore
+				context.setUserInfo(JSON.parse(localStorage.getItem("userInfo")));
+			}
+		}
+	}, []);
+
+	console.log(context.userInfo);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <GlobalStyle/>
+      <UserContext.Provider value={context as UserContextInterface}>
+        
+        <Router>
+        {!!context.jwt ? (
+          // registered users
+          <>
+           <Switch>
+            <Route exact path="/" component={Home}/>
+            <Route exact path="/login" component={Login}/>
+            <Route exact path="/signup" component={Signup}/>
+            <Route exact path="*" component={NotFoundPage}/>
+          </Switch>
+          </>
+          ):(
+            // not registered users
+            <>
+              <Switch>
+                <Route exact path="/" component={Home}/>
+                <Route exact path="/login" component={Login}/>
+                <Route exact path="/signup" component={Signup}/>
+                <Route exact path="*" component={Login}/>
+              </Switch>
+            </>
+          )
+        }
+        </Router >
+      </UserContext.Provider>
+      
+    </>
   );
 }
 
