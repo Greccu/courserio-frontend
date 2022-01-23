@@ -13,6 +13,7 @@ import {
 } from "./NavbarElements";
 import App, { UserContext } from "../../App";
 import { useUser } from "../Auth/useUser";
+import { LoginColor, LogoutColor } from "../../utils/theme";
 
 const Navbar = (toggle:any) => {
   const [scrollNav, setScrollNav] = useState(false);
@@ -45,71 +46,20 @@ const Navbar = (toggle:any) => {
             {!!context.jwt ? (
               <NavMenu>
                 <NavItem>
-                  <NavLinkS
+                  <NavLinkR
+                    to={"users/"+context.userInfo.id}
+                  >
+                    Profile
+                  </NavLinkR>
+                </NavItem>
+                <NavItem>
+                  <NavLinkR
                     to=""
-                    onClick={toggleHome}
-                    smooth={true}
-                    duration={500}
-                    spy={true}
-                    offset={-80}
+                    onClick={context.logOut} 
+                    style={{color:LogoutColor}} 
                   >
-                    Home
-                  </NavLinkS>
-                </NavItem>
-                <NavItem>
-                  <NavLinkS
-                    to="about"
-                    smooth={true}
-                    duration={500}
-                    spy={true}
-                    offset={-80}
-                  >
-                    About
-                  </NavLinkS>
-                </NavItem>
-                <NavItem>
-                  <NavLinkS
-                    to="education"
-                    smooth={true}
-                    duration={500}
-                    spy={true}
-                    offset={-80}
-                  >
-                    Education
-                  </NavLinkS>
-                </NavItem>
-                <NavItem>
-                  <NavLinkS
-                    to="skills"
-                    smooth={true}
-                    duration={500}
-                    spy={true}
-                    offset={-80}
-                  >
-                    Skills
-                  </NavLinkS>
-                </NavItem>
-                <NavItem>
-                  <NavLinkS
-                    to="projects"
-                    smooth={true}
-                    duration={500}
-                    spy={true}
-                    offset={-80}
-                  >
-                    Projects
-                  </NavLinkS>
-                </NavItem>
-                <NavItem>
-                  <NavLinkS
-                    to="others"
-                    smooth={true}
-                    duration={500}
-                    spy={true}
-                    offset={-80}
-                  >
-                    Others
-                  </NavLinkS>
+                    Logout
+                  </NavLinkR>
                 </NavItem>
               </NavMenu>
             ):(<NavMenu
@@ -118,6 +68,7 @@ const Navbar = (toggle:any) => {
               <NavItem>
                   <NavLinkR
                     to="login"
+                    style={{color:LoginColor}} 
                   >
                     Login
                   </NavLinkR>

@@ -4,14 +4,16 @@ import backgroundImg from '../../assets/loginbg.png'
 
 export const HomeContainer = styled.div`
   background-image: url("${backgroundImg}");
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 0;
-  height: 100%;
+  /* display: flex; */
+  /* justify-content: center; */
+  /* align-items: center; */
+  /* padding: 0 0; */
   width: 100%;
-  position: relative;
+  /* position: relative; */
   z-index: 1;
-  font-size: 100px;
-  color: ${PrimaryColor}
+  /* font-size: 100px; */
+  /* color: ${PrimaryColor} */
 `;
+
+export const HomeContent = styled.div`
+`

@@ -11,3 +11,17 @@ export interface CourseListDto {
   }
 }
 
+export interface UserProfileDto {
+  id: number,
+  email: string,
+  username: string,
+  firstName: string,
+  lastName: string,
+  profilePicture: string,
+  dateOfBirth: Date,
+  gender: string,
+  phoneNumber: string,
+  featuredCourse: CourseListDto
+}
+
+

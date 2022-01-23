@@ -14,6 +14,7 @@ import Login from './components/Auth/Login';
 import Signup from './components/Auth/Signup';
 import NotFoundPage from './components/404';
 import Home from './pages/home';
+import UserProfile from './components/UserProfile';
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -61,6 +62,7 @@ function App() {
             <Route exact path="/" component={Home}/>
             <Route exact path="/login" component={Login}/>
             <Route exact path="/signup" component={Signup}/>
+            <Route path="/users/:id" component={UserProfile}/>
             <Route exact path="*" component={NotFoundPage}/>
           </Switch>
           </>

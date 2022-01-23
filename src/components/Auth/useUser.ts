@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useHistory } from "react-router";
 import { BackendUrl } from "../../utils/constants";
+import { UserInfoInterface } from "./types";
 
 
 export const useUser = () => {
@@ -15,7 +16,7 @@ export const useUser = () => {
     const [pageToDisplay, setPageToDisplay] = useState("login");
 
     const logIn = async (details : any) => {
-        let url = BackendUrl + "/auth/token";
+        let url = BackendUrl + "users/login";
         
         const config = {
           headers: {
@@ -26,10 +27,16 @@ export const useUser = () => {
 
         try{
             const res = await axios.post(url, details, config);
-            let token = res.data.access_token;
+            let token = res.data.accessToken;
             const userObj = JSON.stringify({
-              access_token: token
+              access_token: token,
+              id: res.data.id,
+              username: res.data.username,
+              profilePicture: res.data.profilePicture,
+              role: "user"
             });
+            // console.log(userObj);
+            // console.log(res.data);
             const parsedUserObj = JSON.parse(userObj)
             localStorage.setItem("JWTToken", token);
             localStorage.setItem("userInfo", userObj);

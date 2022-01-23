@@ -25,6 +25,7 @@ const Slideshow = () => {
   const [courses, setCourses] = useState<CourseListDto[]>(mockCourses)
   const [index, setIndex] = useState(0);
   const timeoutRef = useRef<any>(null);
+  const [isHovered, setHovered] = useState<boolean>(false);
 
   function resetTimeout() {
     if (timeoutRef.current) {
@@ -59,6 +60,21 @@ const Slideshow = () => {
 		}
   }
 
+  useEffect(() => {
+    console.log("isHovered=",isHovered)
+    if(isHovered){
+      resetTimeout();
+    }else{
+      timeoutRef.current = setTimeout(
+        () =>
+          setIndex((prevIndex) =>
+            prevIndex === courses.length - 1 ? 0 : prevIndex + 1
+          ),
+        delay
+      );
+    }
+  },[isHovered]);
+
   
   return (
     <>
@@ -71,8 +87,14 @@ const Slideshow = () => {
               key={index}
               style={{ backgroundImage: `url(${course.coverImage})` }}
             >
-              <SlideTitle>
+              <SlideTitle
+                href={'course/'+course.id}
+                onMouseEnter={() => setHovered(true)}
+                onMouseLeave={() => setHovered(false)}
+              >
                 {course.title}
+                
+                {isHovered?<><br/><br/>{course.description}</>:""}
               </SlideTitle>
             </Slide>
           ))}

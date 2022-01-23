@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {PrimaryColor, SecondaryColor} from "../../utils/theme"
+import {FadedSecondaryColor, Fadedx2SecondaryColor, PrimaryColor, SecondaryColor} from "../../utils/theme"
 
 export const SlideshowContainer = styled.div`
   margin: 0 auto;
@@ -25,7 +25,7 @@ export const Slide = styled.div`
   background-size: cover;
 `
 
-export const SlideTitle = styled.div`
+export const SlideTitle = styled.a`
   padding: 20px;
   max-width: 80%;
   overflow: hidden;
@@ -36,6 +36,15 @@ export const SlideTitle = styled.div`
   opacity: 0.8;
   border-radius: 10px;
   text-align: center;
+  cursor: pointer;
+  text-decoration: none;
+  color: ${SecondaryColor};
+  &:hover {
+    color: ${FadedSecondaryColor};
+  }
+  &:focus {
+    color: ${Fadedx2SecondaryColor};
+  }
 `
 
 export const SlideshowDots = styled.div`

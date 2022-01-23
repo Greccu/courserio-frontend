@@ -34,12 +34,12 @@ export const NavbarContainer = styled.div`
 
 export const NavMenu = styled.ul`
   display: flex;
+  justify-content: right;
   align-items: center;
   list-style: none;
   text-align: center;
   margin-right: -22px;
   width: 100%;
-  justify-content: center;
   @media screen and (max-width: 768px) {
     display: none;
   }
@@ -95,7 +95,7 @@ export const NavLinkR = styled(LinkR)`
   }
 `;
 
-export const NavLogo = styled(LinkS)`
+export const NavLogo = styled(LinkR)`
   color: ${LogoColor};
   justify-self: flex-start;
   cursor: pointer;
