@@ -17,4 +17,5 @@ export interface UserContextInterface {
 	setPageToDisplay: (val: string) => void;
 	logOut: () => void;
 	logIn: (details: any) => Promise<void>;
+	signUp: (details: any) => Promise<void>;
 }

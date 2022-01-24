@@ -21,6 +21,7 @@ export interface UserProfileDto {
   dateOfBirth: Date,
   gender: string,
   phoneNumber: string,
+  aboutMe: string,
   featuredCourse: CourseListDto
 }
 
