@@ -1,11 +1,18 @@
 import React, { useState, useEffect, useContext } from "react";
-import { HomeContainer } from "./HomeComponents";
+import { HomeContainer, HomeContent } from "./HomeComponents";
+import Slideshow from "./slideshow";
 
 const HomePage = () => {
   return (
       <>
         <HomeContainer>
-          HOME PAGE
+          <Slideshow/>
+          <HomeContent>
+            Content
+            <br/><br/>
+            Content
+
+          </HomeContent>
         </HomeContainer>
       </>
   );

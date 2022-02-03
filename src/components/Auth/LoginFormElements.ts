@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {PrimaryColor, SecondaryColor, LogoColor, BackgroundColor, TextColor, FadedTextColor, FadedSecondaryColor, Fadedx2SecondaryColor} from "../../utils/theme"
+import {PrimaryColor, SecondaryColor, LogoColor, BackgroundColor, TextColor, FadedTextColor, FadedSecondaryColor, Fadedx2SecondaryColor, ErrorColor} from "../../utils/theme"
 import backgroundImg from '../../assets/loginbg.png'
 
 export const LoginContainer = styled.div`
@@ -22,7 +22,7 @@ export const LoginCard = styled.div`
   justify-content: flex-start;
   align-items: center;
   padding: 0 0;
-  height: 600px;
+  height: 650px;
   width: 500px;
   position: relative;
   z-index: 1;
@@ -43,6 +43,7 @@ export const LoginHeader = styled.div`
 `
 
 export const LoginForm = styled.form`
+  max-height: 500px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -74,7 +75,7 @@ export type LoginAProps = {
 export const LoginA = styled.a<LoginAProps>(
   ({centered = false, highlighted = false, bigMargin = false}) =>` 
   text-align: ${centered?'center':'left'};
-  margin-top: ${bigMargin?'80px':'30px'};
+  margin-top: ${bigMargin?'30px':'20px'};
   color: ${highlighted?TextColor:FadedTextColor};
   outline: none;
   text-decoration: none;
@@ -101,4 +102,23 @@ export const LoginButton = styled.button`
     background-color: ${Fadedx2SecondaryColor};
     outline: none;
   }
+`
+
+export const LoginError = styled.div`
+ margin: 20px 20px;
+ padding: 2px 20px;
+ background-color: ${ErrorColor};
+ color: white;
+ font-size: 20px;
+ text-align: center;
+ border-radius: 20px;
+`
+
+export const ScrollableForm = styled.div`
+  max-height: 300px;
+  overflow-y: scroll;
+  scroll-behaviour: smooth;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 `

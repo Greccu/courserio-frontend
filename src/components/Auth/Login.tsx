@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from "../../App";
-import { LoginCard, LoginContainer, LoginForm, LoginA, LoginHeader, LoginInput, LoginButton } from "./LoginFormElements";
+import { LoginCard, LoginContainer, LoginForm, LoginA, LoginHeader, LoginInput, LoginButton, LoginError } from "./LoginFormElements";
 
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
 
 const Login = ({ LoginFunc, error }: Props): JSX.Element => {
 
-
+  console.log("Login Page");
   const [details, setDetails] = useState({ username: "", password: "" });
 	const context = useContext(UserContext);
 
@@ -61,12 +61,13 @@ const Login = ({ LoginFunc, error }: Props): JSX.Element => {
               bigMargin = {false}>Forgot password?</LoginA>
 
             <LoginButton onClick = {handleLogin}>Login</LoginButton>
+          </LoginForm>
+          <LoginError>{context.error}</LoginError>
             <LoginA 
               href="signup" 
               highlighted = {true} 
               centered = {true} 
               bigMargin = {true}>Not a member?<b>Join now!</b></LoginA>
-          </LoginForm>
         </LoginCard>
       </LoginContainer>
       </>

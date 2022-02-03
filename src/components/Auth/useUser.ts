@@ -1,12 +1,15 @@
 import axios from "axios";
+import { setegid } from "process";
 import { useState } from "react";
 import { useHistory } from "react-router";
+import { apiClient } from "../../utils/apiClient";
 import { BackendUrl } from "../../utils/constants";
+import { UserInfoInterface } from "./types";
 
 
 export const useUser = () => {
     const [jwt,setJwt] = useState("");
-    const history = useHistory()
+    const history = useHistory();
 
     const [userInfo,setUserInfo] = useState({})
 
@@ -15,7 +18,7 @@ export const useUser = () => {
     const [pageToDisplay, setPageToDisplay] = useState("login");
 
     const logIn = async (details : any) => {
-        let url = BackendUrl + "/auth/token";
+        let url = BackendUrl + "users/login";
         
         const config = {
           headers: {
@@ -24,28 +27,37 @@ export const useUser = () => {
           },
         };
 
-        try{
-            const res = await axios.post(url, details, config);
-            let token = res.data.access_token;
+        const res = await axios.post(url, details, config).then((res)=>{
+          if(res.status != 200){
+            console.log("oopsie");
+            setError(res.data);
+          }
+          else{
+            let token = res.data.accessToken;
             const userObj = JSON.stringify({
               access_token: token,
-              balance: res.data.balance,
-              email: res.data.email,
-              role: res.data.role,
+              id: res.data.id,
+              username: res.data.username,
               profilePicture: res.data.profilePicture,
-              userName: res.data.userName,
-              phoneNumber: res.data.phoneNumber,
+              role: "user"
             });
+            // console.log(userObj);
+            // console.log(res.data);
             const parsedUserObj = JSON.parse(userObj)
-            await localStorage.setItem("JWTToken", token);
-            await localStorage.setItem("userInfo", userObj);
+            localStorage.setItem("JWTToken", token);
+            localStorage.setItem("userInfo", userObj);
             setJwt(token);
             setUserInfo(parsedUserObj);
             
             history.goBack();
-        }catch(err){
-            console.log(err)
-        }
+          }
+        }).catch(error => {
+          // Handle error.
+          var err = JSON.parse(error.response.data.Message);
+          setError(err.error_description)
+          console.log('An error occurred:', error);
+        });
+      
         
     }
 
@@ -57,5 +69,29 @@ export const useUser = () => {
         setUserInfo("")
     }
 
-    return {jwt,setJwt,userInfo,setUserInfo,error,setError,pageToDisplay,setPageToDisplay, logOut, logIn}
+    const signUp = async (details:any) => {
+      if (details.password != details.confirmPassword) {
+        setError("Passwords don't match");
+      } else {
+        try {
+          const res = await apiClient.post("users/register", {
+            Email: details.email,
+            Username: details.username,
+            FirstName: details.firstName,
+            LastName: details.lastName,
+            ProfilePicture: details.profilePicture,
+            Password: details.password,
+            ConfirmPassword: details.confirmPassword,
+          });
+          setError("");
+          history.push("/login");
+          history.go(0);
+        } catch (err:any) {
+          console.log(err.response.data.Message);
+          setError(err.response.data.Message ?? "An error has occcured");
+        }
+      }
+    };
+
+    return {jwt,setJwt,userInfo,setUserInfo,error,setError,pageToDisplay,setPageToDisplay, logOut, logIn, signUp}
 }

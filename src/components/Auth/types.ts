@@ -1,10 +1,9 @@
 export interface UserInfoInterface {
 	access_token: string;
-	// email: string;
-	// role: string;
-	// profilePicture: string;
-	// userName: string;
-	// phoneNumber: string;
+	id: number;
+	username: string;
+	profilePicture: string;
+	role: string;
 }
 
 export interface UserContextInterface {
@@ -18,4 +17,5 @@ export interface UserContextInterface {
 	setPageToDisplay: (val: string) => void;
 	logOut: () => void;
 	logIn: (details: any) => Promise<void>;
+	signUp: (details: any) => Promise<void>;
 }
