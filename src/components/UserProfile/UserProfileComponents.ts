@@ -25,7 +25,6 @@ export const ProfileHeader = styled.div`
 
 export type PictureProps = {
   imageUrl?: string
-  
 }
 
 export const ProfilePicture = styled.div<PictureProps>(({imageUrl})=>`

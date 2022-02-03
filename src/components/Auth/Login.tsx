@@ -10,7 +10,7 @@ type Props = {
 
 const Login = ({ LoginFunc, error }: Props): JSX.Element => {
 
-
+  console.log("Login Page");
   const [details, setDetails] = useState({ username: "", password: "" });
 	const context = useContext(UserContext);
 
