@@ -47,7 +47,7 @@ const Navbar = (toggle:any) => {
               <NavMenu>
                 <NavItem>
                   <NavLinkR
-                    to={"users/"+context.userInfo.id}
+                    to={"user/"+context.userInfo.id}
                   >
                     Profile
                   </NavLinkR>

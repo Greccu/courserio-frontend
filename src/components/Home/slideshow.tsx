@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { CourseListDto } from '../../types/types';
+import { CourseDto } from '../../types/types';
 import { apiClient } from '../../utils/apiClient';
 import { Slide, SlideshowContainer, SlideshowDot, SlideshowDots, SlideshowSlider, SlideTitle } from './SlideshowComponents';
 
-const mockCourses:CourseListDto[] = [{
+const mockCourses:CourseDto[] = [{
   coverImage: "https://wallpapercave.com/wp/wp2118412.jpg",
   title: "TestCourse1",
 },{
@@ -22,7 +22,7 @@ const Slideshow = () => {
 		getHomeCourses();
 	}, []);
 
-  const [courses, setCourses] = useState<CourseListDto[]>(mockCourses)
+  const [courses, setCourses] = useState<CourseDto[]>(mockCourses)
   const [index, setIndex] = useState(0);
   const timeoutRef = useRef<any>(null);
   const [isHovered, setHovered] = useState<boolean>(false);

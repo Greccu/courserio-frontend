@@ -1,14 +1,22 @@
-export interface CourseListDto {
+export enum ChapterType{
+  Video,
+  Text,
+  Quiz
+}
+
+export interface UserDto{
+  id: number,
+  username: string
+}
+
+export interface CourseDto {
   id?: number,
   coverImage: string,
   miniatureImage?: string,
   title: string,
   description?: string,
   createdAt?: Date,
-  creator?: {
-    id: number,
-    username: string
-  }
+  creator?: UserDto
 }
 
 export interface UserProfileDto {
@@ -22,7 +30,32 @@ export interface UserProfileDto {
   gender: string,
   phoneNumber: string,
   aboutMe: string,
-  featuredCourse: CourseListDto
+  featuredCourse: CourseDto
 }
 
+export interface ChapterDto{
+  id: number,
+  title: string
+}
 
+export interface CoursePageDto {
+  id: number,
+  coverImage: string,
+  miniatureImage: string,
+  title: string,
+  description: string,
+  createdAt: Date,
+  creator: UserDto
+  chapters: ChapterDto[]
+}
+
+export interface ChapterPageDto {
+  id: number,
+  createdAt: Date,
+  title: string,
+  description: string,
+  type: ChapterType,
+  videoUrl: string,
+  content: string,
+  courseId: string
+}
