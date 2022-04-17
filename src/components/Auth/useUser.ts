@@ -18,7 +18,7 @@ export const useUser = () => {
     const [pageToDisplay, setPageToDisplay] = useState("login");
 
     const logIn = async (details : any) => {
-        let url = BackendUrl + "users/login";
+        let url = BackendUrl + "user/login";
         
         const config = {
           headers: {

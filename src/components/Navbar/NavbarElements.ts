@@ -106,3 +106,21 @@ export const NavLogo = styled(LinkR)`
   font-weight: 1000;
   text-decoration: none;
 `;
+
+export const PopperButton = styled(LinkR)`
+  font-size: 20px;
+  color: ${SecondaryColor};
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 0 1rem;
+  height: 50px;
+  width: 100px;
+  cursor: pointer;
+  text-shadow: 2px 2px 10px #192a56;
+  &:hover {
+    color: #d2ced5;
+  }
+  &.active {
+    border-bottom: 3px solid #c23616;
+`

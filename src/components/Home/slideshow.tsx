@@ -50,7 +50,7 @@ const Slideshow = () => {
 
   const getHomeCourses = async () => {
     try {
-			const res = await apiClient.get("courses/home", {
+			const res = await apiClient.get("course/home", {
 			});
 			const courses = res.data;
 			

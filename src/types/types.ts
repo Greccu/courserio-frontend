@@ -6,7 +6,8 @@ export enum ChapterType{
 
 export interface UserDto{
   id: number,
-  username: string
+  username: string,
+  profilePicture: string
 }
 
 export interface CourseDto {
@@ -58,4 +59,24 @@ export interface ChapterPageDto {
   videoUrl: string,
   content: string,
   courseId: string
+}
+
+export interface AnswerDto {
+  id: number,
+  chapterId: number,
+  content: string,
+  anonymous: boolean,
+  createdAt: Date,
+  user: UserDto,
+}
+
+export interface QuestionDto {  
+  id: number,
+  chapterId: number,
+  content: string,
+  anonymous: boolean,
+  createdAt: Date,
+  user: UserDto,
+  answers: AnswerDto[],
+  expandAnswers: boolean
 }

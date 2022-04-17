@@ -1,4 +1,5 @@
-export const TextColor = "#05c46b"
+// export const TextColor = "#05c46b"
+export const TextColor = "#ecf0f1"
 export const BackgroundColor = "#1c1e21"
 export const PrimaryColor = "#1e272e"
 export const SecondaryColor = "#05c46b"

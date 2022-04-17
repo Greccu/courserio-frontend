@@ -15,7 +15,7 @@ const UserProfile = () => {
   const [userProfile, setUserProfile] = useState<UserProfileDto>();
   const getProfile = async () => {
     try {
-			const res = await apiClient.get("users/"+id, {
+			const res = await apiClient.get("user/"+id, {
 			});
 			const user = res.data;
 			setUserProfile(user);

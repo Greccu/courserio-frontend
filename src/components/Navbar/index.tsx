@@ -9,15 +9,28 @@ import {
   NavItem,
   NavLinkS,
   NavLogo,
-  NavLinkR
+  NavLinkR,
+  PopperButton
 } from "./NavbarElements";
 import App, { UserContext } from "../../App";
 import { useUser } from "../Auth/useUser";
-import { LoginColor, LogoutColor } from "../../utils/theme";
+import { BackgroundColor, LoginColor, LogoutColor, PrimaryColor, SecondaryColor, TextColor } from "../../utils/theme";
+import {Button, Fade, Paper, Popper, Typography} from '@mui/material';
+import { ProfilePicture } from "../UserProfile/UserProfileComponents";
+import { hover } from "@testing-library/user-event/dist/hover";
 
 const Navbar = (toggle:any) => {
   const [scrollNav, setScrollNav] = useState(false);
-  
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [open, setOpen] = React.useState(false);
+  const [placement, setPlacement] = React.useState();
+
+  const handleClick = (newPlacement:any) => (event:any) => {
+    setAnchorEl(event.currentTarget);
+    setOpen((prev) => placement !== newPlacement || !prev);
+    setPlacement(newPlacement);
+  };
+
   const changeNav = () => {
     if (window.scrollY >= 80) {
       setScrollNav(true);
@@ -45,26 +58,79 @@ const Navbar = (toggle:any) => {
             </NavLogo>
             {!!context.jwt ? (
               <NavMenu>
-                <NavItem>
-                  <NavLinkR
-                    to={"user/"+context.userInfo.id}
+                 <Popper 
+                  open={open} 
+                  anchorEl={anchorEl} 
+                  placement={placement} 
+                  transition
+                  style={{
+                    zIndex: 100
+                  }}
                   >
-                    Profile
-                  </NavLinkR>
-                </NavItem>
-                <NavItem>
-                  <NavLinkR
-                    to=""
-                    onClick={context.logOut} 
-                    style={{color:LogoutColor}} 
-                  >
-                    Logout
-                  </NavLinkR>
-                </NavItem>
+                  {({ TransitionProps }) => (
+                    <Fade {...TransitionProps} timeout={350}>
+                      <Paper
+                       style={{
+                          width:"200px",
+                          backgroundColor: PrimaryColor,
+                          border: "3px solid "+SecondaryColor,
+                          display: "flex",
+                          flex:3,
+                          flexDirection:"column",
+                          borderRadius: "20px"
+                       }}
+                      >
+                          <div
+                            style={{
+                              width: "100%",
+                              height: "50px",
+                              fontSize: "24px",
+                              color: TextColor,
+                              paddingLeft: "10px",
+                              borderBottom: "2px solid "+SecondaryColor,
+                            }}
+                          >{context.userInfo.username}</div>
+                          <PopperButton
+                            to={"/user/"+context.userInfo.id}
+                          >
+                            Profile
+                          </PopperButton>
+                          <PopperButton
+                            to=""
+                            onClick={context.logOut} 
+                            style={{
+                              color:LogoutColor
+                            }} 
+                          >
+                            Logout
+                          </PopperButton>
+                      </Paper>
+                    </Fade>
+                  )}
+                </Popper>
+                <Button 
+                  onClick={handleClick('bottom-end')}
+                  style={{
+                    height: "100%",
+                  }}
+                >
+                  <div 
+                  style={{
+                    margin: "20px",
+                    backgroundImage: "url(" + context.userInfo.profilePicture + ")",
+                    backgroundColor: SecondaryColor,
+                    backgroundSize: "100%",
+                    height: "100%",
+                    aspectRatio: "1",
+                    borderRadius: "50px"
+                  }}/>
+                  </Button>
+                
               </NavMenu>
             ):(<NavMenu
               style={{justifyContent: "right"}}
               >
+               
               <NavItem>
                   <NavLinkR
                     to="login"

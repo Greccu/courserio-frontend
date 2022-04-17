@@ -1,21 +1,28 @@
 import { List, ListItem, Rating } from "@mui/material";
 import { fontSize, width } from "@mui/system";
 import React, { useState, useEffect, useContext } from "react";
+import { UserContext } from "../../App";
 import { useParams } from "react-router-dom";
 import { CoursePageDto, UserProfileDto } from "../../types/types";
 import { apiClient } from "../../utils/apiClient";
 import { AccentColor, BackgroundColor, PrimaryColor, SecondaryColor, TextColor } from "../../utils/theme";
+import { UserContextInterface } from "../Auth/types";
+import { useUser } from "../Auth/useUser";
 import PageContainer from "../PageContainer";
 import { CoursePageBackground, CoursePageContainer, CoursePageContent, CoursePagePreview, CoursePageScrollableList, CoursePageTitle } from "./CoursePageComponents";
 
 
 const CoursePage = () => {
 
+  const userContext = useContext(UserContext);
   const { id } = useParams<any>();
   const [course, setCourse] = useState<CoursePageDto>();
-  const getProfile = async () => {
+  const getCourse = async () => {
     try {
-			const res = await apiClient.get("courses/"+id, {
+			const res = await apiClient.get("course/"+id, {
+        headers:{
+          "Authorization" : "Bearer " + userContext.jwt
+        }
 			});
 			const courseContent = res.data;
       // for(let i=0; i<5; i++){
@@ -29,7 +36,7 @@ const CoursePage = () => {
   }
 
   useEffect(() => {
-    getProfile();
+    getCourse();
   },[]);
 
   return (
