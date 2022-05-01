@@ -3,13 +3,13 @@ import { fontSize, width } from "@mui/system";
 import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from "../../App";
 import { useParams } from "react-router-dom";
-import { CoursePageDto, UserProfileDto } from "../../types/types";
 import { apiClient } from "../../utils/apiClient";
-import { AccentColor, BackgroundColor, PrimaryColor, SecondaryColor, TextColor } from "../../utils/theme";
+import { AccentColor, BackgroundColor, FadedAccentColor, PrimaryColor, SecondaryColor, TextColor } from "../../utils/theme";
 import { UserContextInterface } from "../Auth/types";
 import { useUser } from "../Auth/useUser";
 import PageContainer from "../PageContainer";
 import { CoursePageBackground, CoursePageContainer, CoursePageContent, CoursePagePreview, CoursePageScrollableList, CoursePageTitle } from "./CoursePageComponents";
+import { CoursePageDto } from "../../types/course";
 
 
 const CoursePage = () => {
@@ -59,17 +59,20 @@ const CoursePage = () => {
                   margin: 5,
               }}
               >
-                <span style = {{margin:"0 10px", fontSize: 20, color:AccentColor}}>{3}</span>
-                <Rating name="read-only" value={3} readOnly size="large" color={AccentColor}/>
+                <span style = {{margin:"0 10px", fontSize: 20, color:AccentColor}}>{course?.averageRating}</span>
+                <Rating name="read-only" value={course?.averageRating} precision={0.1} readOnly size="large" color={AccentColor}/>
               </div>
               <div>
-                <span style = {{color:AccentColor}}>{1000}</span> Ratings
+                Your Rating: <span style = {{color:AccentColor}}>{course?.userRating}</span>
               </div>
               <div>
+                <span style = {{color:AccentColor}}>{course?.ratingsCount}</span> Ratings
+              </div>
+              {/* <div>
                 Students enrolled: <span style = {{color:AccentColor}}>{23000}</span>
-              </div>
+              </div> */}
               <div>
-                Created by: <a href ={"/user/"+course?.creator.id}>{course?.creator.username}</a>
+                Created by: <a href ={"/user/"+course?.creator.id} style={{textDecoration:"none", color:FadedAccentColor}}>{course?.creator.username}</a>
               </div>
               <div>
                 Created at: <span style = {{color:AccentColor}}>{course?.createdAt}</span>

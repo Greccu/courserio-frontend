@@ -41,6 +41,7 @@ export const QuestionContainer = styled.div`
   grid-column-gap: 0px;
   grid-row-gap: 0px;
   margin: 10px;
+  margin-bottom: 25px;
 `
 
 export const QnAHeader = styled.div`

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {BackgroundColor, PrimaryColor, SecondaryColor} from "../../utils/theme"
+import {BackgroundColor, FadedTextColor, PrimaryColor, SecondaryColor, TextColor} from "../../utils/theme"
 import backgroundImg from '../../assets/loginbg.png'
 
 export const HomeContainer = styled.div`
@@ -22,7 +22,6 @@ export const CoursesContainer = styled.div`
   width: 100%;
   display: grid;
   grid-template-columns: repeat(4, 24%);
-  grid-column-gap: 1.5%;
   grid-row-gap: 4%;
   padding-bottom: 20px;
 `
@@ -30,10 +29,16 @@ export type CourseMiniatureProps = {
   active : boolean
 }
 
-export const CourseMiniatureContainer = styled.div<CourseMiniatureProps>(
+export const CourseMiniatureContainer = styled.a<CourseMiniatureProps>(
  ({active = false})=>`
+ z-index: 1;
  width: 300px;
- background-color: yellow;
+ text-decoration: none;
+ color: ${TextColor};
+ &:hover{
+  background-color: ${PrimaryColor};
+  z-index: 2;
+ }
 `)
 
 export const CourseMiniatureImage = styled.div`
@@ -43,7 +48,6 @@ export const CourseMiniatureImage = styled.div`
 `
 
 export const CourseMiniatureContent = styled.div`
-  background-color: red;
   width: 100%;
   /* aspect-ratio: 16/7; */
   display: grid;
@@ -65,12 +69,11 @@ export const CourseMiniatureCreatorImage = styled.div`
 
 
 export const CourseMiniatureTitle = styled.div`
+  color: ${TextColor}
   grid-area: 1 / 2 / 2 / 3;
   width: 100%;
-  background-color:blue;
 `
 export const CourseMiniatureInfo = styled.div`
   grid-area: 2 / 2 / 4 / 3;
-  background-color:green;
 `
 

@@ -18,6 +18,7 @@ import Home from './pages/home';
 import UserProfile from './components/UserProfile';
 import CoursePage from './components/CoursePage';
 import ChapterPage from './components/ChapterPage';
+import CreateCoursePage from './components/CreateCoursePage';
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -72,6 +73,7 @@ function App() {
            <Switch>
             <Route exact path="/" component={Home}/>
             <Route path="/user/:id" component={UserProfile}/>
+            <Route path="/course/create" component={CreateCoursePage}/>
             <Route path="/course/:id" component={CoursePage}/>
             <Route path="/chapter/:id" component={ChapterPage}/>
             <Route exact path="/login"><Redirect to=""/></Route>

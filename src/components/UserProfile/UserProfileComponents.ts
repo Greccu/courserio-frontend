@@ -102,7 +102,7 @@ export const FeaturedCourseTitle = styled.div`
   margin: 0 20px 10px;
 `
 
-export const FeaturedCourseMiniature = styled.div<PictureProps>(({imageUrl})=>`
+export const FeaturedCourseMiniature = styled.a<PictureProps>(({imageUrl})=>`
   justify-content: right;
   margin: 20px;
   background-image: url(${imageUrl});

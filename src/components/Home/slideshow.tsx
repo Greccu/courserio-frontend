@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { CourseDto } from '../../types/types';
+import { CourseDto } from '../../types/course';
 import { apiClient } from '../../utils/apiClient';
 import { Slide, SlideshowContainer, SlideshowDot, SlideshowDots, SlideshowSlider, SlideTitle } from './SlideshowComponents';
 
