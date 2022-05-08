@@ -41,8 +41,7 @@ export const UserContext = createContext<UserContextInterface>(null);
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const context = useUser();
-  
-  console.log(context.jwt);
+
   let token = localStorage.getItem("JWTToken");
   if (token != null) {
     if (!context.jwt) {
@@ -50,17 +49,6 @@ function App() {
       context.setUserInfo(JSON.parse(localStorage.getItem("userInfo")));
     }
   }
-  //
-  // useEffect(() => {
-  //   console.log(context.jwt);
-  //   let token = localStorage.getItem("JWTToken");
-  //   if (token != null) {
-  //     if (!context.jwt) {
-  //       context.setJwt(token); //@ts-ignore
-  //       context.setUserInfo(JSON.parse(localStorage.getItem("userInfo")));
-  //     }
-  //   }
-  // }, []);
 
   return (
     <>

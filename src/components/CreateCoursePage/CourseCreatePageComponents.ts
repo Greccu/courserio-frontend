@@ -37,8 +37,14 @@ export const CustomInputField = styled(TextField)({
   },
 });
 
-export const CoursePreview = styled.div`
-  width: 100px;
-  height:100px;
-  background-color: yellow
+export const CreateChapterField = styled.div`
+  display: grid;
+  grid-template-columns: 90% 10%;
+  grid-template-rows: repeat(3, 1fr);
+  grid-column-gap: 5px;
+  grid-row-gap: 5px;
+  margin: 10px;
+  padding: 5px;
+  border: 1px solid ${SecondaryColor};
+  border-radius: 10px;
 `

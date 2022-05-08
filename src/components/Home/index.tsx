@@ -2,34 +2,35 @@ import { Button, Pagination } from "@mui/material";
 import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from "../../App";
 import { CourseDto } from "../../types/course";
+import { PagedResult } from "../../types/global";
 import { apiClient } from "../../utils/apiClient";
 import { SecondaryColor } from "../../utils/theme";
-import CourseMiniature from "../General/courseMiniature";
+import CourseMiniature from "../Public/courseMiniature";
 import { CourseMiniatureContainer, CourseMiniatureContent, CourseMiniatureCreatorImage, CourseMiniatureImage, CourseMiniatureInfo, CourseMiniatureTitle, CoursesContainer, HomeContainer, HomeContentContainer } from "./HomeComponents";
 import Slideshow from "./slideshow";
 
-
+const PAGE_SIZE = 8;
 
 const HomePage = () => {
   // const [courses, setCourses] = useState(Array.from(Array(8).keys()));
   const [page, setPage] = useState(1);
+  const [orderBy, setOrderBy] = useState('new');
   const context = useContext(UserContext);
-  const [courses, setCourses] = useState<CourseDto[]>();
+  const [courses, setCourses] = useState<PagedResult<CourseDto>>();
   const [recommendedCourses, setRecommendedCourses] = useState<CourseDto[]>();
-  const [selectedButton, setSelectedButton] = useState(1);
-
-  const handlePaginationChange = (event: React.ChangeEvent<unknown>, page: number)=>{
-    console.log("TEST PAGE "+page)
+  const handlePaginationChange = (event: React.ChangeEvent<unknown>, newPage: number)=>{
+    setPage(newPage);
   }
 
-  const getHomeCourses = async () => {
+  const getCourses = async () => {
     // try {
       await apiClient
         .get("course", {
           params: {
             IsPagingEnabled: true,
-            PageSize: 8,
-            Page: page
+            PageSize: PAGE_SIZE,
+            Page: page,
+            OrderBy: orderBy
           },
           headers: {
             "Authorization": "Bearer " + context.jwt
@@ -38,7 +39,30 @@ const HomePage = () => {
         .then((res) => {
           const coursesData = res.data;
           setCourses(coursesData);
-          setRecommendedCourses(coursesData.slice(0,4));
+          console.log(coursesData);
+        })
+        .catch((error) => {
+          console.log(error);
+          console.log(error.response);
+          if(error.response.status == 401){
+            console.log("LOGGING OUT");
+            context.logOut();
+          }
+        });
+      
+  }
+
+  const getRecommendedCourses = async () => {
+    // try {
+      await apiClient
+        .get("course/recommended", {
+          headers: {
+            "Authorization": "Bearer " + context.jwt
+          }
+        })
+        .then((res) => {
+          const coursesData = res.data;
+          setRecommendedCourses(coursesData);
           console.log(coursesData);
         })
         .catch((error) => {
@@ -53,8 +77,12 @@ const HomePage = () => {
   }
 
   useEffect(() => {
-    getHomeCourses();
+    getRecommendedCourses();
   },[]);
+
+  useEffect(() => {
+    getCourses();
+  },[orderBy, page]);
 
   
   return (
@@ -88,17 +116,17 @@ const HomePage = () => {
                 flexDirection: "row",
                 gap: "10px"
               }}>
-              <Button variant={selectedButton == 1?"contained":"outlined"} onClick={()=>{setSelectedButton(1)}}> New </Button>
-              <Button variant={selectedButton == 2?"contained":"outlined"} onClick={()=>{setSelectedButton(2)}}> Rating </Button>
-              <Button variant={selectedButton == 3?"contained":"outlined"} onClick={()=>{setSelectedButton(3)}}> Popularity </Button>
+              <Button variant={orderBy == 'new'?"contained":"outlined"} onClick={()=>{setOrderBy('new')}}> New </Button>
+              <Button variant={orderBy == 'rating'?"contained":"outlined"} onClick={()=>{setOrderBy('rating')}}> Rating </Button>
+              <Button variant={orderBy == 'popularity'?"contained":"outlined"} onClick={()=>{setOrderBy('popularity')}}> Popularity </Button>
             </div>
             <hr style = {{width:"100%", backgroundColor:SecondaryColor, marginBottom:"5px"}}/>
             <CoursesContainer>
-              {courses?.map(course =>{
+              {courses?.data?.map(course =>{
                 return <CourseMiniature {...course}/>
               })}
             </CoursesContainer>
-            <Pagination count={10} 
+            <Pagination count={courses?.totalPageNumber} 
               color="secondary" 
               onChange={handlePaginationChange}
               sx={{

@@ -1,4 +1,5 @@
 import { Box, Rating } from "@mui/material";
+import { fontSize } from "@mui/system";
 import { CourseDto } from "../../types/course";
 import { AccentColor, FadedTextColor } from "../../utils/theme";
 import { CourseMiniatureContainer, CourseMiniatureContent, CourseMiniatureCreatorImage, CourseMiniatureImage, CourseMiniatureInfo, CourseMiniatureTitle } from "../Home/HomeComponents";
@@ -21,10 +22,7 @@ const CourseMiniature = (course:CourseDto) => {
               <CourseMiniatureInfo>
                 <div style={{
                   color:FadedTextColor
-                }}>{course.creator?.username}</div>
-                <div style={{
-                  color:FadedTextColor
-                }}>{course.createdAt}</div>
+                }}>{course.creator?.username} - {course.createdAtRelative}</div>
                 <div style = {{
                   display: "flex",
                   alignItems: "center",
@@ -32,11 +30,12 @@ const CourseMiniature = (course:CourseDto) => {
                   width: "100%"
                 }}
                 >
-                  <Rating precision={0.1} value={course.averageRating} readOnly />
+                  <Rating precision={0.1} value={course.averageRating} readOnly size="small"/>
                   <span style={{
-                    color:AccentColor
+                    color:AccentColor,
+                    fontSize: "14px"
                   }}>
-                    {course.averageRating}
+                    {course.averageRating} - {course.ratingsCount}  Ratings
                   </span>
                 </div>
                 </CourseMiniatureInfo>

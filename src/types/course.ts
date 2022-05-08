@@ -10,12 +10,14 @@ export interface CourseDto {
   averageRating?: number,
   ratingsCount?: number,
   createdAt?: Date,
+  createdAtRelative?: string,
   creator?: UserDto
 }
 
 export interface CoursePageDto {
   id: number,
   createdAt: Date,
+  createdAtRelative: string,
   coverImage: string,
   miniatureImage: string,
   title: string,

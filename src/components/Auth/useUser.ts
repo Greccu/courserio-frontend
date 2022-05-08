@@ -41,8 +41,6 @@ export const useUser = () => {
               profilePicture: res.data.profilePicture,
               role: "user"
             });
-            // console.log(userObj);
-            // console.log(res.data);
             const parsedUserObj = JSON.parse(userObj)
             localStorage.setItem("JWTToken", token);
             localStorage.setItem("userInfo", userObj);

@@ -51,7 +51,7 @@ export const CourseMiniatureContent = styled.div`
   width: 100%;
   /* aspect-ratio: 16/7; */
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: 70px auto;
   grid-template-rows: auto auto auto;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
@@ -75,5 +75,6 @@ export const CourseMiniatureTitle = styled.div`
 `
 export const CourseMiniatureInfo = styled.div`
   grid-area: 2 / 2 / 4 / 3;
+  width: 100%;
 `
 

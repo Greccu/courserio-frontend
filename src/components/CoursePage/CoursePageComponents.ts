@@ -19,7 +19,7 @@ export const CoursePageContainer = styled.div`
   width: 70%;
   height: 85%;
   grid-template-columns: 65% 35%;
-  grid-template-rows: 10% 35% 30% 15% 10%;
+  grid-template-rows: auto auto auto auto auto;
   grid-column-gap: 10px;
   grid-row-gap: 10px;
 `;
@@ -29,7 +29,7 @@ export const CoursePageTitle = styled.div`
   grid-area: 1 / 1 / 3 / 2;
   font-size: 60px;
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
   justify-content: center;
   text-align: center;
   display:flex;
@@ -39,6 +39,7 @@ export const CoursePageTitle = styled.div`
 export const CoursePageContent = styled.div`
   z-index: 1;
   grid-area: 3 / 1 / 6 / 2;
+  height: 500px;
   display:flex;
   flex-direction: column;
   align-items:center;
@@ -49,13 +50,14 @@ export const CoursePageContent = styled.div`
 export const CoursePagePreview = styled.div`
   z-index: 2;
   grid-area: 2 / 2 / 5 / 3;
+  height: 480px;
   background-color: ${PrimaryColor};
   border-radius: 20px;
   padding: 10px;
 `
 
 export const CoursePageScrollableList = styled.div`
-  max-height: 63%;
+  max-height: 55%;
   overflow-y: scroll;
   &::-webkit-scrollbar {
     width: 12px;   

@@ -1,15 +1,14 @@
 import { List, ListItem, Rating } from "@mui/material";
-import { fontSize, width } from "@mui/system";
 import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from "../../App";
 import { useParams } from "react-router-dom";
 import { apiClient } from "../../utils/apiClient";
 import { AccentColor, BackgroundColor, FadedAccentColor, PrimaryColor, SecondaryColor, TextColor } from "../../utils/theme";
-import { UserContextInterface } from "../Auth/types";
-import { useUser } from "../Auth/useUser";
 import PageContainer from "../PageContainer";
 import { CoursePageBackground, CoursePageContainer, CoursePageContent, CoursePagePreview, CoursePageScrollableList, CoursePageTitle } from "./CoursePageComponents";
 import { CoursePageDto } from "../../types/course";
+import CoursePreview from "../Public/coursePreview";
+import { DateToString } from "../../utils/helpers";
 
 
 const CoursePage = () => {
@@ -17,6 +16,7 @@ const CoursePage = () => {
   const userContext = useContext(UserContext);
   const { id } = useParams<any>();
   const [course, setCourse] = useState<CoursePageDto>();
+  const [ userRating, setUserRating ] = useState<number|null>(0);
   const getCourse = async () => {
     try {
 			const res = await apiClient.get("course/"+id, {
@@ -29,7 +29,7 @@ const CoursePage = () => {
       //   courseContent.chapters = courseContent.chapters.concat(courseContent.chapters);
       // }
 			setCourse(courseContent);
-      console.log(courseContent);
+      setUserRating(courseContent.userRating);
 		} catch (e) {
 			console.log(e);
 		}
@@ -38,6 +38,21 @@ const CoursePage = () => {
   useEffect(() => {
     getCourse();
   },[]);
+
+  const handleRatingChange = async (event : any, newValue : any) => {
+    if(newValue != userRating){
+      setUserRating(newValue);
+      try {
+        const res = await apiClient.post("rating", {
+          courseId: course?.id,
+          userId: userContext.userInfo.id,
+          value: newValue
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    }    
+  };
 
   return (
       <>
@@ -60,47 +75,24 @@ const CoursePage = () => {
               }}
               >
                 <span style = {{margin:"0 10px", fontSize: 20, color:AccentColor}}>{course?.averageRating}</span>
-                <Rating name="read-only" value={course?.averageRating} precision={0.1} readOnly size="large" color={AccentColor}/>
-              </div>
-              <div>
-                Your Rating: <span style = {{color:AccentColor}}>{course?.userRating}</span>
+                <Rating value={course?.averageRating ?? 0 } precision={0.1} readOnly size="medium" color={AccentColor}/>
               </div>
               <div>
                 <span style = {{color:AccentColor}}>{course?.ratingsCount}</span> Ratings
               </div>
-              {/* <div>
-                Students enrolled: <span style = {{color:AccentColor}}>{23000}</span>
-              </div> */}
+              <div>
+                Your Rating: <Rating value={userRating} size="medium" color={AccentColor} 
+                onChange={handleRatingChange}/>
+              </div>
               <div>
                 Created by: <a href ={"/user/"+course?.creator.id} style={{textDecoration:"none", color:FadedAccentColor}}>{course?.creator.username}</a>
               </div>
               <div>
-                Created at: <span style = {{color:AccentColor}}>{course?.createdAt}</span>
+                Created at: <span style = {{color:AccentColor}}>{DateToString(course?.createdAt)}</span>
               </div>
             </CoursePageContent>
             <CoursePagePreview>
-              <div style={{ 
-                zIndex: 2,
-                backgroundImage: `url(${course?.coverImage})`,
-                backgroundColor: "red",
-                backgroundPosition: "center",
-                backgroundSize: "cover",
-                width: "100%",
-                aspectRatio: "21/9",
-                borderRadius: "12px 12px 0 0",
-                marginBottom: 10
-              }}/>
-              <CoursePageScrollableList>
-                <List >
-                  {course?.chapters.map(chapter => {
-                    return <a href={"/chapter/"+chapter.id} style = {{textDecoration:"none", color: TextColor}}><ListItem style = {{
-                      border:"solid 1px "+BackgroundColor,
-                    }}>{chapter.title}</ListItem></a>
-                  })}
-                </List>
-              </CoursePageScrollableList>
-              
-              
+              <CoursePreview {...course!}/>
             </CoursePagePreview>
           </CoursePageContainer>
        </PageContainer>

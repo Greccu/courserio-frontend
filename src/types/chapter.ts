@@ -21,10 +21,9 @@ export interface ChapterPageDto {
 }
 
 export interface ChapterCreateDto {
-  title: string,
-  description: string,
-  type: ChapterType,
-  videoUrl: string,
-  content: string,
-  courseId: string
+  title?: string,
+  description?: string,
+  type?: ChapterType,
+  videoUrl?: string,
+  content?: string
 }

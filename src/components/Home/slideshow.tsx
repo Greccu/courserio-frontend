@@ -3,17 +3,7 @@ import { CourseDto } from '../../types/course';
 import { apiClient } from '../../utils/apiClient';
 import { Slide, SlideshowContainer, SlideshowDot, SlideshowDots, SlideshowSlider, SlideTitle } from './SlideshowComponents';
 
-const mockCourses:CourseDto[] = [{
-  coverImage: "https://wallpapercave.com/wp/wp2118412.jpg",
-  title: "TestCourse1",
-},{
-  coverImage: "https://wallpapercave.com/wp/wp2118405.jpg",
-  title: "TestCourse2",
-},{
-  coverImage: "https://4.bp.blogspot.com/-HwZNTdeK958/XEiwRt667sI/AAAAAAAABHQ/ulbNDRd1iYcIa5eIrYwxf1L_alZxQR7jwCKgBGAs/w3840-h1600-c/polygons-abstract-colorful-art-32-8k.jpg",
-  title: "TestCourse3",
-}
-];
+const mockCourses:CourseDto[] = [];
 const delay = 10000;
 
 const Slideshow = () => {

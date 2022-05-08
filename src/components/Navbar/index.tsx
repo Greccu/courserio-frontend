@@ -47,7 +47,7 @@ const Navbar = (toggle:any) => {
     animateScroll.scrollToTop();
   };
   const context = useContext(UserContext);
-  console.log(context);
+  // console.log(context);
   return (
     <>
       <IconContext.Provider value={{ color: "#fff" }}>
@@ -58,6 +58,14 @@ const Navbar = (toggle:any) => {
             </NavLogo>
             {!!context.jwt ? (
               <NavMenu>
+                 <NavItem>
+                  <NavLinkR
+                    to="/course/create"
+                    style={{color:LoginColor}} 
+                  >
+                    Create Course
+                  </NavLinkR>
+                </NavItem>
                  <Popper 
                   open={open} 
                   anchorEl={anchorEl} 
