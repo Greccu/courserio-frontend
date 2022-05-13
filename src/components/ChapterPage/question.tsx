@@ -1,17 +1,23 @@
-import { ErrorColor, FadedSecondaryColor, FadedTextColor, SecondaryColor, TextColor } from "../../utils/theme";
+import { ErrorColor, FadedErrorColor, FadedSecondaryColor, FadedTextColor, SecondaryColor, TextColor } from "../../utils/theme";
 import { AnswerContainer, Answers, QnAContent, QnAHeader, QnAProfilePicture, QuestionContainer } from "./ChapterPageComponents";
 import { Collapse, Button, Input, FormControlLabel, Checkbox } from '@mui/material';
 import { useContext, useState } from "react";
 import { UserContext } from "../../App";
 import { apiClient } from "../../utils/apiClient";
-import { QuestionDto } from "../../types/qna";
+import { AnswerDto, QuestionDto } from "../../types/qna";
+import { useSnackbar } from "notistack";
+
 
 const Question = (question:QuestionDto) => {
+
+  const {enqueueSnackbar} = useSnackbar();
 
   const context = useContext(UserContext);
   
   const [isExpanded, setIsExpanded] = useState(false);
   const [isReplyInputExpanded, setReplyInputExpanded] = useState(false);
+  const [answers, setAnswers] = useState<AnswerDto[]>(question.answers??[]);
+
   const [AnswerInput, setAnswerInput] = useState<any>({
     content: "",
     anonymous: true,
@@ -31,9 +37,21 @@ const Question = (question:QuestionDto) => {
     event.preventDefault();
     try {
 			const res = await apiClient.post("answer", AnswerInput);
-      console.log(res);
+      var newAnswer = res.data;
+      if(!newAnswer.anonymous){
+        newAnswer.user = context.userInfo;
+      }
+      setAnswers([...answers, newAnswer])
+      setReplyInputExpanded(!isReplyInputExpanded);
+      setAnswerInput({
+        ...AnswerInput,
+        content:""
+      })
+      enqueueSnackbar("Answer added succesfully!", {variant:"success"});
 		} catch (e) {
 			console.log(e);
+      enqueueSnackbar("Could not add answer!", {variant:"error"});
+
 		}
   }
 
@@ -51,7 +69,7 @@ const Question = (question:QuestionDto) => {
                          <span
                          style = {{
                           color: FadedTextColor
-                        }}>{question.createdAt}</span>
+                        }}>{question.createdAtRelative}</span>
                          </QnAHeader>
                        <QnAContent> 
                          {question.content}<br/>
@@ -96,6 +114,7 @@ const Question = (question:QuestionDto) => {
                                           content : event.target.value
                                         })
                                       }}
+                                      value={AnswerInput.content}
                                       // onSubmitCapture={()=>{replyToQuestion(question.id,"test")}}
                                       />
                                       <div 
@@ -151,22 +170,22 @@ const Question = (question:QuestionDto) => {
                             padding: "0 2px",
                             background: "none",
                             border: "none",
-                            color: SecondaryColor,
+                            color: answers.length ? SecondaryColor : FadedErrorColor,
                             cursor: "pointer",
                             fontSize: "15px",
                             margin: "10px"
                           }}
-                          disabled = {question.answers.length == 0}
+                          disabled = {answers.length == 0}
                         >
                           {isExpanded ?
                             "Hide Answers  ▲": 
-                            question.answers.length == 0 ? 
+                            answers.length == 0 ? 
                                       "No Answers" :
-                                      question.answers.length + " Answers 	▼"
+                                      answers.length + " Answers 	▼"
                           }
                         </button>
                           <Collapse in={isExpanded}>
-                            {question.answers.map( answer => {
+                            {answers.map( answer => {
                               return <AnswerContainer>
                                 <QnAProfilePicture imageUrl={answer.user.profilePicture}/>
                                 <QnAHeader> 
@@ -181,7 +200,7 @@ const Question = (question:QuestionDto) => {
                             <span
                             style = {{
                               color: FadedTextColor
-                            }}>{question.createdAt}</span>
+                            }}>{answer.createdAtRelative}</span>
                             </QnAHeader>
                                 <QnAContent> {answer.content} </QnAContent>
                               </AnswerContainer>

@@ -1,9 +1,12 @@
 import { Button, TextField } from "@mui/material";
 import { width } from "@mui/system";
+import { useSnackbar } from "notistack";
 import { useContext, useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { UserContext } from "../../App";
 import { ChapterCreateDto, ChapterType } from "../../types/chapter";
 import { CourseCreateDto } from "../../types/course";
+import { apiClient } from "../../utils/apiClient";
 import { PrimaryColor, TextColor } from "../../utils/theme";
 import PageContainer from "../PageContainer";
 import CoursePreview from "../Public/coursePreview";
@@ -11,6 +14,7 @@ import { CourseCreateContainer, CreateChapterField, CustomInputField } from "./C
 
 const CreateCoursePage = () => {
 
+  const history = useHistory();
   const context = useContext(UserContext);
   const [course, setCourse] = useState<CourseCreateDto>({
     chapters: [],
@@ -18,14 +22,25 @@ const CreateCoursePage = () => {
   });
   const [isCourseValid, setCourseValid] = useState<boolean>(false);
 
-  const handleSubmit = (event:any) => {
-    console.log('SUBMIT')
-    console.log(course);
-    event.preventDefault();
+  const { enqueueSnackbar } = useSnackbar();
+
+  const handleSubmit = async (event:any) => {
+    
+    try {
+      const res = await apiClient.post("course", {
+        ...course
+      });
+      enqueueSnackbar("Course created successfully!", {variant:"success"});
+      history.push("/");
+    } catch (e) {
+      console.log(e);
+      enqueueSnackbar("Could not create course!", {variant:"error"});
+    }
+
   }
 
   useEffect(() => {
-    console.log(course);
+    // console.log(course);
     if(
       course.title != "" &&
       course.description != ""  
@@ -49,6 +64,7 @@ const CreateCoursePage = () => {
     setCourse({...course,chapters:[...course.chapters.slice(0,index), chapter, ...course.chapters.slice(index+1)]})
   }
 
+
   return (
     <>
       <PageContainer>
@@ -60,7 +76,7 @@ const CreateCoursePage = () => {
             gap: "20px",
             flexDirection: "column",
             marginBottom: "20px"
-            }} onSubmit={handleSubmit}>
+            }} onSubmit={(e)=>{e.preventDefault()}}>
             <div style={{fontSize:"36px", margin:"25px 0"}}>Create new Course</div>
             <CustomInputField fullWidth label="Title" onChange={(event:any) => {
               setCourse({
@@ -74,10 +90,11 @@ const CreateCoursePage = () => {
                 description: event.target.value
               })
             }} />
-            <CustomInputField fullWidth label="Cover Image URL" multiline onChange={(event:any) => {
+            <CustomInputField fullWidth label="Cover Image URL" onChange={(event:any) => {
               setCourse({
                 ...course,
-                coverImage: event.target.value
+                coverImage: event.target.value,
+                miniatureImage: event.target.value
               })
             }} />
             <span style={{fontSize:"24px"}}>Chapters</span>
@@ -110,7 +127,7 @@ const CreateCoursePage = () => {
               </CreateChapterField>)}
               <Button color="secondary" onClick={handleAddChapter}>Add Chapter +</Button>
             </div>
-            <Button variant="contained" color="success" disabled={!isCourseValid}>Create Course</Button>
+            <Button variant="contained" color="success" disabled={!isCourseValid} onClick={handleSubmit}>Create Course</Button>
           </form>
           <div style={{
               width: "27%",

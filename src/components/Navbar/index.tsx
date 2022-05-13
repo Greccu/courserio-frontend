@@ -1,23 +1,21 @@
 import React, { useState, useEffect, useContext } from "react";
 import {AppName} from "../../utils/constants";
 import { IconContext } from "react-icons/lib";
-import { animateScroll } from "react-scroll";
 import {
   Nav,
   NavbarContainer,
   NavMenu,
   NavItem,
-  NavLinkS,
   NavLogo,
   NavLinkR,
   PopperButton
 } from "./NavbarElements";
-import App, { UserContext } from "../../App";
-import { useUser } from "../Auth/useUser";
-import { BackgroundColor, LoginColor, LogoutColor, PrimaryColor, SecondaryColor, TextColor } from "../../utils/theme";
-import {Button, Fade, Paper, Popper, Typography} from '@mui/material';
-import { ProfilePicture } from "../UserProfile/UserProfileComponents";
-import { hover } from "@testing-library/user-event/dist/hover";
+import { UserContext } from "../../App";
+import { LoginColor, LogoutColor, PrimaryColor, SecondaryColor, TextColor } from "../../utils/theme";
+import {Button, Fade, Paper, Popper} from '@mui/material';
+
+import { useSnackbar } from 'notistack';
+
 
 const Navbar = (toggle:any) => {
   const [scrollNav, setScrollNav] = useState(false);
@@ -43,9 +41,6 @@ const Navbar = (toggle:any) => {
     window.addEventListener("scroll", changeNav);
   }, []);
 
-  const toggleHome = () => {
-    animateScroll.scrollToTop();
-  };
   const context = useContext(UserContext);
   // console.log(context);
   return (

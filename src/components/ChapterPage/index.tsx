@@ -14,9 +14,11 @@ import Question from "./question";
 import { UserContext } from "../../App";
 import { QuestionDto } from "../../types/qna";
 import { ChapterPageDto } from "../../types/chapter";
+import { useSnackbar } from "notistack";
 
 const ChapterPage = () => {
 
+  const {enqueueSnackbar} = useSnackbar();
   const context = useContext(UserContext);
   const { id } = useParams<any>();
   const [chapter, setChapter] = useState<ChapterPageDto>();
@@ -66,9 +68,20 @@ const ChapterPage = () => {
     event.preventDefault();
     try {
 			const res = await apiClient.post("question", QuestionInput);
-      console.log(res);
+      var newQuestion = res.data;
+      if(!newQuestion.anonymous){
+        newQuestion.user = context.userInfo;
+      }
+      setQnA([...QnA??[], newQuestion])
+      setQuestionInput({
+        ...QuestionInput,
+        content:""
+      })
+      enqueueSnackbar("Question added successfully!", {variant:"success"});
+      // console.log(res);
 		} catch (e) {
 			console.log(e);
+      enqueueSnackbar("Could not add question!", {variant:"error"});
 		}
   }
 
@@ -109,6 +122,7 @@ const ChapterPage = () => {
                   ...QuestionInput,
                   content : event.target.value
                 })}}
+                value={QuestionInput.content}
                 />
                 <FormControlLabel 
                   control={
@@ -129,7 +143,8 @@ const ChapterPage = () => {
                   })}
            </QnAContainer>
            <OtherContainer>
-             OTHER CONTAINER
+             OTHER CONTAINER <br/>
+             Recommended Courses
            </OtherContainer>
          </ChapterPageContainer>
        </PageContainer>

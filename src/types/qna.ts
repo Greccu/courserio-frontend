@@ -6,6 +6,7 @@ export interface AnswerDto {
   content: string,
   anonymous: boolean,
   createdAt: Date,
+  createdAtRelative: string,
   user: UserDto,
 }
 
@@ -15,6 +16,7 @@ export interface QuestionDto {
   content: string,
   anonymous: boolean,
   createdAt: Date,
+  createdAtRelative: string,
   user: UserDto,
   answers: AnswerDto[],
   expandAnswers: boolean

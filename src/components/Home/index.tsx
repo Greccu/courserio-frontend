@@ -1,4 +1,5 @@
 import { Button, Pagination } from "@mui/material";
+import { useSnackbar } from "notistack";
 import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from "../../App";
 import { CourseDto } from "../../types/course";
@@ -13,6 +14,7 @@ const PAGE_SIZE = 8;
 
 const HomePage = () => {
   // const [courses, setCourses] = useState(Array.from(Array(8).keys()));
+  const {enqueueSnackbar} = useSnackbar();
   const [page, setPage] = useState(1);
   const [orderBy, setOrderBy] = useState('new');
   const context = useContext(UserContext);
@@ -44,8 +46,11 @@ const HomePage = () => {
         .catch((error) => {
           console.log(error);
           console.log(error.response);
+          enqueueSnackbar("An error occurred!", {variant:"error"});
+
           if(error.response.status == 401){
             console.log("LOGGING OUT");
+            enqueueSnackbar("Unauthorized - Please Log In!", {variant:"error"});
             context.logOut();
           }
         });
@@ -68,8 +73,10 @@ const HomePage = () => {
         .catch((error) => {
           console.log(error);
           console.log(error.response);
+          enqueueSnackbar("An error occurred!", {variant:"error"});
           if(error.response.status == 401){
             console.log("LOGGING OUT");
+            enqueueSnackbar("Unauthorized - Please Log In!", {variant:"error"});
             context.logOut();
           }
         });

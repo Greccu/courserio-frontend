@@ -19,6 +19,7 @@ import UserProfile from './components/UserProfile';
 import CoursePage from './components/CoursePage';
 import ChapterPage from './components/ChapterPage';
 import CreateCoursePage from './components/CreateCoursePage';
+import { SnackbarProvider } from 'notistack';
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -53,7 +54,9 @@ function App() {
   return (
     <>
       <GlobalStyle/>
+      <SnackbarProvider maxSnack={3}>
       <UserContext.Provider value={context as UserContextInterface}>
+
         {console.log("LoggedIn =",!!context.jwt)}
         {context.jwt != "" && context.jwt != null ? (
           // registered users
@@ -83,7 +86,7 @@ function App() {
           )
         }
       </UserContext.Provider>
-      
+      </SnackbarProvider>
     </>
   );
 }

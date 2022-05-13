@@ -10,5 +10,6 @@ export const Fadedx2SecondaryColor = "#02552e"
 export const LogoutColor = "#e74c3c"
 export const LoginColor = "#3498db"
 export const ErrorColor = "#e74c3c";
+export const FadedErrorColor = "#ea8685";
 export const AccentColor = "#f9ca24";
 export const FadedAccentColor = "#e1b12c";

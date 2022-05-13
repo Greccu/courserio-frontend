@@ -9,11 +9,13 @@ import { CoursePageBackground, CoursePageContainer, CoursePageContent, CoursePag
 import { CoursePageDto } from "../../types/course";
 import CoursePreview from "../Public/coursePreview";
 import { DateToString } from "../../utils/helpers";
+import { useSnackbar } from "notistack";
 
 
 const CoursePage = () => {
 
   const userContext = useContext(UserContext);
+  const {enqueueSnackbar} = useSnackbar();
   const { id } = useParams<any>();
   const [course, setCourse] = useState<CoursePageDto>();
   const [ userRating, setUserRating ] = useState<number|null>(0);
@@ -32,6 +34,7 @@ const CoursePage = () => {
       setUserRating(courseContent.userRating);
 		} catch (e) {
 			console.log(e);
+      enqueueSnackbar("An error occurred!", {variant:"error"});
 		}
   }
 
@@ -48,8 +51,10 @@ const CoursePage = () => {
           userId: userContext.userInfo.id,
           value: newValue
         });
+        enqueueSnackbar("Rating updated successfully!", {variant:"success"});
       } catch (e) {
         console.log(e);
+        enqueueSnackbar("Could not update rating!", {variant:"error"});
       }
     }    
   };

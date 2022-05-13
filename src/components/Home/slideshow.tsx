@@ -1,3 +1,4 @@
+import { useSnackbar } from 'notistack';
 import React, { useEffect, useRef, useState } from 'react';
 import { CourseDto } from '../../types/course';
 import { apiClient } from '../../utils/apiClient';
@@ -12,6 +13,7 @@ const Slideshow = () => {
 		getHomeCourses();
 	}, []);
 
+  const { enqueueSnackbar } = useSnackbar();
   const [courses, setCourses] = useState<CourseDto[]>(mockCourses)
   const [index, setIndex] = useState(0);
   const timeoutRef = useRef<any>(null);
@@ -46,6 +48,7 @@ const Slideshow = () => {
 			
 			setCourses(courses);
 		} catch (e) {
+      enqueueSnackbar("An error occurred!", {variant:"error"});
 			console.log(e);
 		}
   }
