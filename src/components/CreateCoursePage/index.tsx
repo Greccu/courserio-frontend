@@ -215,10 +215,11 @@ const CreateCoursePage = () => {
                     <ReactQuill 
                       theme="snow" 
                       value={chapter.content} 
-                      onChange={(event:any) => {
+                      onChange={(value:string) => {
+                        console.log(value)
                         handleChapterChange(index,{
                           ...chapter,
-                          content: event.target.value
+                          content: value
                         })}}
                       style={{
                         // color:"red"
