@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { AccentColor, BackgroundColor, PrimaryColor, SecondaryColor, TextColor } from "../../utils/theme";
+import { AccentColor, BackgroundColor, FadedSecondaryColor, Fadedx2SecondaryColor, PrimaryColor, SecondaryColor, TagColor, TextColor } from "../../utils/theme";
 
 export const CoursePageBackground = styled.div` 
   z-index: 0;
@@ -72,4 +72,27 @@ export const CoursePageScrollableList = styled.div`
   border-radius: 20px;       /* roundness of the scroll thumb */
   border: 3px solid ${BackgroundColor};  /* creates padding around scroll thumb */
 }
+`
+
+export const CourseTag = styled.div`
+  background-color: ${TagColor};
+  margin: 5px;
+  padding: 2px 2px 2px 15px;
+  border-radius: 20px;
+`
+
+export const CourseFollowTagButton = styled.button`
+  color: black;
+  background-color: transparent;
+  border-radius: 100%;
+  height: 30px;
+  width: 30px;
+  vertical-align: -5px;
+  border: none;
+  &:hover{
+    color: #2f2f2f;
+  }
+  &:active{
+    color: #4f4f4f
+  }
 `

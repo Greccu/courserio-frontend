@@ -1,5 +1,6 @@
 import { ChapterCreateDto, ChapterDto } from "./chapter"
 import { UserDto } from "./user"
+import { TagDto, TagCourseDto } from "./tag"
 
 export interface CourseDto {
   id?: number,
@@ -25,8 +26,9 @@ export interface CoursePageDto {
   averageRating?: number,
   ratingsCount?: number,
   userRating?: number,
-  creator: UserDto
-  chapters: ChapterDto[]
+  creator: UserDto,
+  chapters: ChapterDto[],
+  tags: TagCourseDto[]
 }
 
 export interface CourseCreateDto {
@@ -35,5 +37,6 @@ export interface CourseCreateDto {
   miniatureImage?: string,
   title?: string,
   description?: string,
-  chapters: ChapterCreateDto[]
+  chapters: ChapterCreateDto[],
+  tags: number[]
 }

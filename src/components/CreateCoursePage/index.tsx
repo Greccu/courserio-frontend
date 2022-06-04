@@ -1,4 +1,4 @@
-import { Button, TextField } from "@mui/material";
+import { Autocomplete, Button, Checkbox, TextField } from "@mui/material";
 import { width } from "@mui/system";
 import { useSnackbar } from "notistack";
 import { useContext, useEffect, useState } from "react";
@@ -8,16 +8,23 @@ import { ChapterCreateDto, ChapterType } from "../../types/chapter";
 import { CourseCreateDto } from "../../types/course";
 import { apiClient } from "../../utils/apiClient";
 import { PrimaryColor, TextColor } from "../../utils/theme";
+import { CourseFollowTagButton, CourseTag } from "../CoursePage/CoursePageComponents";
 import PageContainer from "../PageContainer";
 import CoursePreview from "../Public/coursePreview";
-import { CourseCreateContainer, CreateChapterField, CustomInputField } from "./CourseCreatePageComponents";
+import { CourseCreateContainer, CreateChapterField, CustomAutocomplete, CustomInputField } from "./CourseCreatePageComponents";
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import { TagDto, TagOptionDto } from "../../types/tag";
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 const CreateCoursePage = () => {
 
   const history = useHistory();
   const context = useContext(UserContext);
+  const [tags, setTags] = useState<TagDto[]>([{id:1, name:"Test1"},{id:2, name:"Test2"}]);
   const [course, setCourse] = useState<CourseCreateDto>({
     chapters: [],
+    tags: [],
     creatorId: context.userInfo.id
   });
   const [isCourseValid, setCourseValid] = useState<boolean>(false);
@@ -38,6 +45,21 @@ const CreateCoursePage = () => {
     }
 
   }
+
+  const getTags = async () => {
+    try {
+      const res = await apiClient.get("tag");
+      console.log(res);
+			setTags(res.data);
+    } catch (e) {
+      console.log(e);
+      enqueueSnackbar("Something went wrong!", {variant:"error"});
+    }
+  }
+
+  useEffect(()=>{
+    getTags();
+  },[])
 
   useEffect(() => {
     // console.log(course);
@@ -97,6 +119,44 @@ const CreateCoursePage = () => {
                 miniatureImage: event.target.value
               })
             }} />
+            <CustomAutocomplete
+              multiple
+              id="checkboxes-tags-demo"
+              options={tags}
+              disableCloseOnSelect
+              getOptionLabel={(option) => (option as TagOptionDto).name}
+              renderOption={(props, option, { selected }) => (
+                <li {...props}>
+                  <Checkbox
+                    icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
+                    checkedIcon={<CheckBoxIcon fontSize="small" />}
+                    style={{ marginRight: 8 }}
+                    checked={selected}
+                  />
+                  {(option as TagOptionDto).name}
+                </li>
+              )}
+              style={{ width: "100%", color:"white" }}
+              sx={{
+                display: 'inline-block',
+                '& input': {
+                  width: 200,
+                },
+                '& tag-label': {
+                  backgroundColor:"red",
+                  color:"red"
+                },
+              }}
+              renderInput={(params) => (
+                <TextField {...params} label="Course Tags" placeholder="Tag" />
+              )}
+              onChange={(event:any, values:any) => {
+                setCourse({
+                  ...course,
+                  tags: values.map((x:TagDto) => x.id)
+                })
+              }}
+            />
             <span style={{fontSize:"24px"}}>Chapters</span>
             <div style={{
               display:"flex", 

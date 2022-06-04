@@ -1,16 +1,17 @@
-import { List, ListItem, Rating } from "@mui/material";
+import { Icon, List, ListItem, Rating } from "@mui/material";
 import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from "../../App";
 import { useParams } from "react-router-dom";
 import { apiClient } from "../../utils/apiClient";
-import { AccentColor, BackgroundColor, FadedAccentColor, PrimaryColor, SecondaryColor, TextColor } from "../../utils/theme";
+import { AccentColor, BackgroundColor, ErrorColor, FadedAccentColor, Fadedx2SecondaryColor, PrimaryColor, SecondaryColor, TextColor } from "../../utils/theme";
 import PageContainer from "../PageContainer";
-import { CoursePageBackground, CoursePageContainer, CoursePageContent, CoursePagePreview, CoursePageScrollableList, CoursePageTitle } from "./CoursePageComponents";
+import { CourseFollowTagButton, CoursePageBackground, CoursePageContainer, CoursePageContent, CoursePagePreview, CoursePageScrollableList, CoursePageTitle, CourseTag } from "./CoursePageComponents";
 import { CoursePageDto } from "../../types/course";
 import CoursePreview from "../Public/coursePreview";
 import { DateToString } from "../../utils/helpers";
 import { useSnackbar } from "notistack";
-
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
 const CoursePage = () => {
 
@@ -59,6 +60,35 @@ const CoursePage = () => {
     }    
   };
 
+  const handleFollowUnfollow = async (isFolllow: boolean, id: number) => {
+    if(isFolllow){
+      try {
+        await apiClient.post("tag/follow/"+id, {}, {
+          headers:{
+            "Authorization" : "Bearer " + userContext.jwt
+          }
+        });
+        enqueueSnackbar("Tag followed!", {variant:"success"});
+      } catch (e) {
+        console.log(e);
+        enqueueSnackbar("You already follow this tag!", {variant:"error"});
+      }
+    }
+    else{
+      try {
+          await apiClient.post("tag/unfollow/"+id, {}, {
+            headers:{
+              "Authorization" : "Bearer " + userContext.jwt
+            }
+          });
+          enqueueSnackbar("Tag unfollowed!", {variant:"success"});
+        } catch (e) {
+          console.log(e);
+          enqueueSnackbar("You do not follow this tag!", {variant:"error"});
+        }
+    }
+  };
+
   return (
       <>
        <PageContainer>
@@ -94,6 +124,21 @@ const CoursePage = () => {
               </div>
               <div>
                 Created at: <span style = {{color:AccentColor}}>{DateToString(course?.createdAt)}</span>
+              </div>
+              <div style={{
+                display: "flex",
+                flexWrap: "wrap",
+                margin: "10px",
+                maxWidth: "80%",
+                justifyContent: "center"
+              }}>
+                {course?.tags.map(tag => {
+                  return <CourseTag>
+                    {tag.name} <CourseFollowTagButton>{tag.isFollowed ? 
+                    <RemoveCircleOutlineIcon onClick={()=>handleFollowUnfollow(false, tag.id)}/>: 
+                    <AddCircleOutlineIcon onClick={()=>handleFollowUnfollow(true, tag.id)}/>}</CourseFollowTagButton> 
+                  </CourseTag>
+                })}
               </div>
             </CoursePageContent>
             <CoursePagePreview>

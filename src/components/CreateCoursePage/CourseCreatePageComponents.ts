@@ -1,4 +1,5 @@
-import { TextField } from "@mui/material";
+import { Tag } from "@mui/icons-material";
+import { Autocomplete, AutocompleteGetTagProps, TextField } from "@mui/material";
 import styled from "styled-components";
 import { AccentColor, BackgroundColor, PrimaryColor, SecondaryColor, TextColor } from "../../utils/theme";
 
@@ -48,3 +49,30 @@ export const CreateChapterField = styled.div`
   border: 1px solid ${SecondaryColor};
   border-radius: 10px;
 `
+
+export const CustomAutocomplete = styled(Autocomplete)({
+  color: PrimaryColor,
+  '& label.Mui-focused': {
+    color: SecondaryColor,
+  },
+  '& .MuiInput-underline:after': {
+    borderBottomColor: SecondaryColor,
+  },
+  '& .MuiInputBase-input': {
+    color: TextColor,
+  },
+  '& .MuiFormLabel-root':{
+    color: TextColor
+  },
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      borderColor: TextColor,
+    },
+    '&:hover fieldset': {
+      borderColor: 'yellow',
+    },
+    '&.Mui-focused fieldset': {
+      borderColor: SecondaryColor,
+    },
+  },
+});
