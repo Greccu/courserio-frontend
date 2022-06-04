@@ -5,3 +5,8 @@ div.MuiButtonBase-root.MuiChip-root.MuiChip-filled.MuiChip-sizeMedium.MuiChip-co
   background-color: #0652DD;
   font-weight: bold;
 }
+
+#root > div > form > div:nth-child(7) > div > div:nth-child(4) > div > div.ql-toolbar.ql-snow{
+  color:white;
+  background-color: white;
+}

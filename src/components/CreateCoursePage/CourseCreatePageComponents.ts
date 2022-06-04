@@ -1,5 +1,5 @@
 import { Tag } from "@mui/icons-material";
-import { Autocomplete, AutocompleteGetTagProps, TextField } from "@mui/material";
+import { Autocomplete, AutocompleteGetTagProps, Select, TextField } from "@mui/material";
 import styled from "styled-components";
 import { AccentColor, BackgroundColor, PrimaryColor, SecondaryColor, TextColor } from "../../utils/theme";
 
@@ -73,6 +73,26 @@ export const CustomAutocomplete = styled(Autocomplete)({
     },
     '&.Mui-focused fieldset': {
       borderColor: SecondaryColor,
+    },
+  },
+});
+
+export const CustomSelect = styled(Select)({
+  '& label.Mui-focused': {
+    color: 'green',
+  },
+  '& .MuiInput-underline:after': {
+    borderBottomColor: 'green',
+  },
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      borderColor: 'red',
+    },
+    '&:hover fieldset': {
+      borderColor: 'yellow',
+    },
+    '&.Mui-focused fieldset': {
+      borderColor: 'green',
     },
   },
 });

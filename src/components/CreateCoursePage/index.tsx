@@ -1,4 +1,4 @@
-import { Autocomplete, Button, Checkbox, TextField } from "@mui/material";
+import { Autocomplete, Button, Checkbox, makeStyles, MenuItem, Select, TextField } from "@mui/material";
 import { width } from "@mui/system";
 import { useSnackbar } from "notistack";
 import { useContext, useEffect, useState } from "react";
@@ -11,14 +11,17 @@ import { PrimaryColor, TextColor } from "../../utils/theme";
 import { CourseFollowTagButton, CourseTag } from "../CoursePage/CoursePageComponents";
 import PageContainer from "../PageContainer";
 import CoursePreview from "../Public/coursePreview";
-import { CourseCreateContainer, CreateChapterField, CustomAutocomplete, CustomInputField } from "./CourseCreatePageComponents";
+import { CourseCreateContainer, CreateChapterField, CustomAutocomplete, CustomInputField, CustomSelect } from "./CourseCreatePageComponents";
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { TagDto, TagOptionDto } from "../../types/tag";
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import { Editable, withReact, useSlate, Slate } from 'slate-react';
+// import WysiwygEditor from "../Wysiwyg";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const CreateCoursePage = () => {
-
   const history = useHistory();
   const context = useContext(UserContext);
   const [tags, setTags] = useState<TagDto[]>([{id:1, name:"Test1"},{id:2, name:"Test2"}]);
@@ -177,12 +180,54 @@ const CreateCoursePage = () => {
                     description: event.target.value
                   })
                 }} />
-                <CustomInputField fullWidth label="VideoUrl" value={chapter.videoUrl} style={{gridArea:"3 / 1 / 4 / 2"}} onChange={(event:any) => {
-                  handleChapterChange(index,{
-                    ...chapter,
-                    videoUrl: event.target.value
-                  })
-                }} />
+                <CustomSelect 
+                 id="custom-css-outlined-input"
+                 fullWidth
+                 value={chapter.type}
+                 label="Type"
+                 onChange={(event:any) => {
+                    handleChapterChange(index,{
+                      ...chapter,
+                      type: event.target.value
+                    })
+                  }}
+                  style={{
+                    gridArea:"3 / 1 / 4 / 2", 
+                    color: TextColor
+                  }}
+                  color="warning"
+                >
+                  <MenuItem value={ChapterType.Video}>Video</MenuItem>
+                  <MenuItem value={ChapterType.Text}>Text</MenuItem>
+                  <MenuItem value={ChapterType.Quiz} disabled>Quiz</MenuItem>
+                </CustomSelect>
+                {
+                  chapter.type == ChapterType.Video ?
+                  <CustomInputField fullWidth label="VideoUrl" value={chapter.videoUrl} style={{gridArea:"4 / 1 / 5 / 2"}} onChange={(event:any) => {
+                    handleChapterChange(index,{
+                      ...chapter,
+                      videoUrl: event.target.value
+                    })
+                  }} /> 
+                 :
+                  <div style={{gridArea:"4 / 1 / 5 / 2", width:"100%"}}>
+                    <label style={{margin:"5px", fontSize:"24px"}}>Content</label>
+                    <ReactQuill 
+                      theme="snow" 
+                      value={chapter.content} 
+                      onChange={(event:any) => {
+                        handleChapterChange(index,{
+                          ...chapter,
+                          content: event.target.value
+                        })}}
+                      style={{
+                        // color:"red"
+                      }} 
+                    />
+                  </div>
+                }
+                
+                
                 <Button color="error" style={{gridArea:"2 / 2 / 3 / 3"}} onClick={()=>{handleRemoveChapter(index)}}>X</Button>
               </CreateChapterField>)}
               <Button color="secondary" onClick={handleAddChapter}>Add Chapter +</Button>
