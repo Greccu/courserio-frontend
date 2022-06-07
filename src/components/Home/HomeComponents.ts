@@ -5,6 +5,7 @@ import backgroundImg from '../../assets/loginbg.png'
 export const HomeContainer = styled.div`
   background-image: url("${backgroundImg}");
   padding-top: 20px;
+  padding-bottom: 50px;
   width: 100%;
   z-index: 1;
 `;
@@ -15,7 +16,7 @@ export const HomeContentContainer = styled.div`
   margin: 0 auto;
   padding: 20px;
   padding-bottom: 40px;
-
+  border-radius: 10px;
 `
 
 export const CoursesContainer = styled.div`

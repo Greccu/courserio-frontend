@@ -2,9 +2,10 @@ import styled from "styled-components";
 import {FadedSecondaryColor, Fadedx2SecondaryColor, PrimaryColor, SecondaryColor} from "../../utils/theme"
 
 export const SlideshowContainer = styled.div`
-  margin: 0 auto;
+  margin: 0 auto 10px;
   overflow: hidden;
-  max-width: 90%;
+  max-width: 60%;
+
 `
 
 export const SlideshowSlider = styled.div`
@@ -15,9 +16,9 @@ export const SlideshowSlider = styled.div`
 export const Slide = styled.div`
   display: inline-flex;
   justify-content: center;
-  width: 100%;
-  aspect-ratio: 21/9;
-  border-radius: 40px;
+  width: 90%;
+  aspect-ratio: 16/9;
+  border-radius: 10px;
   text-align: center;
   background-color: ${SecondaryColor};
   background-position: center;

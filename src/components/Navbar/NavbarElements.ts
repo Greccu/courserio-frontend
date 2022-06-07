@@ -6,21 +6,27 @@ import {PrimaryColor, SecondaryColor, LogoColor} from "../../utils/theme"
   // background: ${({ scrollNav }) => (scrollNav ? "#152347" : "transparent")};
     // margin-top: ${({ margin }) => (margin ? "0px" : "-80px")};
 
-export const Nav = styled.nav`
-  background: ${PrimaryColor};
+export interface NavProps{
+  transparent: boolean
+}
+
+export const Nav = styled.nav<NavProps>(
+  ({transparent = false}) => `
+  background: ${transparent? "transparent" : PrimaryColor};
   height: 80px;
   margin-top: 0px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 1rem;
-  position: sticky;
+  position: fixed;
+  width: 100%;
   top: 0;
   z-index: 10;
   @media screen and (max-width: 960px) {
     transition: 0.8s all ease;
   }
-`;
+`); 
 
 export const NavbarContainer = styled.div`
   display: flex;

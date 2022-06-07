@@ -6,9 +6,9 @@ export const ChapterPageContainer = styled.div`
   display: grid;
   margin: auto;
   width: 90%;
-  grid-template-columns: 65% 35%;
-  grid-template-rows: auto auto;
-  grid-column-gap: 10px;
+  grid-template-columns: 70% 30%;
+  grid-template-rows: auto auto auto auto;
+  grid-column-gap: 20px;
   grid-row-gap: 10px;
 `;
 
@@ -17,20 +17,49 @@ export const ChapterVideoContainer = styled.div`
   width: 80%;
   margin: auto; 
   aspect-ratio: 16/9;
-  background-color: black;
+  background-color: ${PrimaryColor};
+`
+
+export const DescriptionContainer = styled.div`
+ width: 80%;
+ margin: 20px auto;
+ grid-area: 2 / 1 / 3 / 3;
+ background-color: ${PrimaryColor};
+ border-radius: 10px;
+ padding: 20px 30px;
+`
+
+export const ChapterTextContentContainer = styled.div`
+  grid-area: 2 / 1 / 3 / 3; 
+  width: 80%;
+  margin: 10px auto; 
+  padding: 20px 30px;
+  background-color: ${PrimaryColor};
+`
+
+export const DescriptionTextContainer = styled.div`
+ width: 80%;
+ margin: 10px auto;
+ grid-area: 1 / 1 / 2 / 3;
+ background-color: ${PrimaryColor};
+ border-radius: 10px;
+ padding: 20px 30px;
 `
 
 export const QnAContainer = styled.div`
- grid-area: 2 / 1 / 3 / 2;
+ grid-area: 3 / 1 / 5 / 2;
  width: 100%;
  background-color: ${PrimaryColor};
+ border-radius: 10px;
  height: auto;
 `
 
 export const OtherContainer = styled.div`
- grid-area: 2 / 2 / 3 / 3; 
+ grid-area: 3 / 2 / 4 / 3; 
  width: 100%;
- /* background-color: red; */
+ background-color: ${PrimaryColor};
+ border-radius: 10px;
+ padding: 20px;
  height: auto;
 `
 

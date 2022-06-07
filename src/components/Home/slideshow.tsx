@@ -73,11 +73,11 @@ const Slideshow = () => {
     <>
       <SlideshowContainer>
         <SlideshowSlider
-          style={{ transform: `translate3d(${-index * 100}%, 0, 0)` }}
+          style={{ transform: `translate3d(${-index * 90 + 5}%, 0, 0)` }}
         >
-          {courses.map((course, index) => (
+          {courses.map((course, i) => (
             <Slide
-              key={index}
+              key={i}
               style={{ backgroundImage: `url(${course.coverImage})` }}
             >
               <SlideTitle

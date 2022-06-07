@@ -20,6 +20,7 @@ import CoursePage from './components/CoursePage';
 import ChapterPage from './components/ChapterPage';
 import CreateCoursePage from './components/CreateCoursePage';
 import { SnackbarProvider } from 'notistack';
+import WelcomePage from './components/WelcomePage';
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -76,7 +77,7 @@ function App() {
             // not registered users
             <>
               <Switch>
-                <Route exact path="/" component={Home}/>
+                <Route exact path="/" component={WelcomePage}/>
                 <Route exact path="/login" component={Login}/>
                 <Route exact path="/signup" component={Signup}/>
                 {/* <Route exact path="*" component={Login}/> */}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import {AppName} from "../../utils/constants";
 import { IconContext } from "react-icons/lib";
+import { animateScroll } from "react-scroll";
 import {
   Nav,
   NavbarContainer,
@@ -8,16 +9,18 @@ import {
   NavItem,
   NavLogo,
   NavLinkR,
-  PopperButton
+  PopperButton,
+  NavLinkS
 } from "./NavbarElements";
 import { UserContext } from "../../App";
 import { LoginColor, LogoutColor, PrimaryColor, SecondaryColor, TextColor } from "../../utils/theme";
 import {Button, Fade, Paper, Popper} from '@mui/material';
 
-import { useSnackbar } from 'notistack';
+export interface NavbarProps {
+ canBeTransparent?: boolean  
+}
 
-
-const Navbar = (toggle:any) => {
+const Navbar = ({canBeTransparent = false}:NavbarProps) => {
   const [scrollNav, setScrollNav] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [open, setOpen] = React.useState(false);
@@ -41,12 +44,16 @@ const Navbar = (toggle:any) => {
     window.addEventListener("scroll", changeNav);
   }, []);
 
+  const toggleHome = () => {
+    animateScroll.scrollToTop();
+  };
+
   const context = useContext(UserContext);
-  // console.log(context);
+  console.log("can be transparent = ", canBeTransparent?.toString());
   return (
     <>
       <IconContext.Provider value={{ color: "#fff" }}>
-        <Nav>
+        <Nav transparent={!scrollNav && canBeTransparent}>
           <NavbarContainer>
             <NavLogo to="">
               {AppName}
@@ -131,9 +138,58 @@ const Navbar = (toggle:any) => {
                 
               </NavMenu>
             ):(<NavMenu
-              style={{justifyContent: "right"}}
-              >
-               
+                style={{justifyContent: "right"}}
+                >
+               <NavItem>
+               <NavLinkS
+                  to="about"
+                  smooth={true}
+                  duration={500}
+                  spy={true}
+                  offset={-80}
+                  // scrollNav={scrollNav}
+                >
+                  About
+                </NavLinkS>
+              </NavItem>
+              <NavItem>
+                <NavLinkS
+                  to="contribution"
+                  smooth={true}
+                  duration={500}
+                  spy={true}
+                  offset={-80}
+                  // scrollNav={scrollNav}
+                >
+                  Contribution
+                </NavLinkS>
+              </NavItem>
+              <NavItem>
+                <NavLinkS
+                  to="story"
+                  smooth={true}
+                  duration={500}
+                  spy={true}
+                  // exact="true"
+                  offset={-80}
+                  // scrollNav={scrollNav}
+                >
+                  Story
+                </NavLinkS>
+              </NavItem>
+              <NavItem>
+                <NavLinkS
+                  to="join-us"
+                  smooth={true}
+                  duration={500}
+                  spy={true}
+                  // exact="true"
+                  offset={-80}
+                  // scrollNav={scrollNav}
+                >
+                  Join us
+                </NavLinkS>
+              </NavItem>
               <NavItem>
                   <NavLinkR
                     to="login"

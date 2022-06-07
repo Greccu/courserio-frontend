@@ -1,7 +1,7 @@
 export enum ChapterType{
-  Video,
-  Text,
-  Quiz
+  Video = "Video",
+  Text = "Text",
+  Quiz = "Quiz"
 }
 
 export interface ChapterDto{

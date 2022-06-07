@@ -6,8 +6,8 @@ import { CourseMiniatureContainer, CourseMiniatureContent, CourseMiniatureCreato
 
 const CourseMiniature = (course:CourseDto) => {
   return <CourseMiniatureContainer 
-  href={"/course/"+course.id}
-  active = {false}>
+          href={"/course/"+course.id}
+          active = {false}>
             <CourseMiniatureImage style ={{
               backgroundImage : "url(" + course.coverImage + ")",
               backgroundSize: "100%",

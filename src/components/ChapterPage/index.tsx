@@ -8,16 +8,19 @@ import { apiClient } from "../../utils/apiClient";
 import { BackgroundColor, FadedSecondaryColor, FadedTextColor, PrimaryColor, SecondaryColor, TextColor } from "../../utils/theme";
 import PageContainer from "../PageContainer";
 import { ProfilePicture } from "../UserProfile/UserProfileComponents";
-import { AnswerContainer, Answers, ChapterPageContainer, ChapterVideoContainer, OtherContainer, QnAContainer, QnAContent, QnAHeader, QnAProfilePicture, QuestionContainer } from "./ChapterPageComponents";
+import { ChapterTextContentContainer, DescriptionTextContainer, AnswerContainer, Answers, ChapterPageContainer, ChapterVideoContainer, DescriptionContainer, OtherContainer, QnAContainer, QnAContent, QnAHeader, QnAProfilePicture, QuestionContainer } from "./ChapterPageComponents";
 import { Collapse, Button } from '@mui/material';
 import Question from "./question";
 import { UserContext } from "../../App";
 import { QuestionDto } from "../../types/qna";
-import { ChapterPageDto } from "../../types/chapter";
+import { ChapterPageDto, ChapterType } from "../../types/chapter";
 import { useSnackbar } from "notistack";
+import { CourseDto } from "../../types/course";
+import CourseMiniature from "../Public/courseMiniature";
 
 const ChapterPage = () => {
 
+  const [recommendedCourses, setRecommendedCourses] = useState<CourseDto[]>();
   const {enqueueSnackbar} = useSnackbar();
   const context = useContext(UserContext);
   const { id } = useParams<any>();
@@ -61,6 +64,7 @@ const ChapterPage = () => {
   useEffect(() => {
     getChapter();
     getQnAs();
+    getRecommendedCourses();
   },[]);
 
 
@@ -85,14 +89,60 @@ const ChapterPage = () => {
 		}
   }
 
+  const getRecommendedCourses = async () => {
+    // try {
+      await apiClient
+        .get("course/recommended", {
+          headers: {
+            "Authorization": "Bearer " + context.jwt
+          }
+        })
+        .then((res) => {
+          const coursesData = res.data;
+          setRecommendedCourses(coursesData);
+          console.log(coursesData);
+        })
+        .catch((error) => {
+          console.log(error);
+          console.log(error.response);
+          enqueueSnackbar("An error occurred!", {variant:"error"});
+          if(error.response.status == 401){
+            console.log("LOGGING OUT");
+            enqueueSnackbar("Unauthorized - Please Log In!", {variant:"error"});
+            context.logOut();
+          }
+        });   
+  }
+
+  console.log(chapter)
+
   return (
       <>
        <PageContainer>
          <ChapterPageContainer>
-           <ChapterVideoContainer>
-            <ReactPlayer url={chapter?.videoUrl??""} width="100%" height="100%" />
-            {/* CHAPTERVIDEO */}
-           </ChapterVideoContainer>
+           {chapter?.type === ChapterType.Video ? 
+            <>
+              <ChapterVideoContainer>
+                <ReactPlayer url={chapter?.videoUrl??""} width="100%" height="100%" />
+                {/* CHAPTERVIDEO */}
+              </ChapterVideoContainer>
+              <DescriptionContainer>
+                <h1 style={{marginBottom:"10px"}}>{chapter?.title}</h1>
+                {chapter?.description}
+              </DescriptionContainer>
+            </> 
+            : 
+            <>
+              <DescriptionTextContainer>
+                <h1 style={{marginBottom:"10px"}}>{chapter?.title}</h1>
+                {chapter?.description}
+              </DescriptionTextContainer>
+              <ChapterTextContentContainer>
+                <div dangerouslySetInnerHTML={{__html: chapter?.content??""}}/>
+                {/* {chapter?.content} */}
+              </ChapterTextContentContainer>
+            </> 
+           }
            <QnAContainer>
            <form
             
@@ -143,8 +193,19 @@ const ChapterPage = () => {
                   })}
            </QnAContainer>
            <OtherContainer>
-             OTHER CONTAINER <br/>
-             Recommended Courses
+             <div></div>
+             <h1>Recommended Courses</h1>
+             <div style={{  
+                          width: "300px",
+                          display: "flex",
+                          flexDirection: "column",
+                          margin: "30px auto 0",
+                        }}>
+                  {recommendedCourses?.map(course =>{
+                                  return <CourseMiniature {...course} />
+                                })}
+             </div>
+             
            </OtherContainer>
          </ChapterPageContainer>
        </PageContainer>

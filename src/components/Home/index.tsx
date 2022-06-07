@@ -79,8 +79,7 @@ const HomePage = () => {
             enqueueSnackbar("Unauthorized - Please Log In!", {variant:"error"});
             context.logOut();
           }
-        });
-      
+        });   
   }
 
   useEffect(() => {
