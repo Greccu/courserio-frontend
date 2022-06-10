@@ -3,14 +3,23 @@ import {BackgroundColor, FadedTextColor, PrimaryColor, SecondaryColor, TextColor
 import backgroundImg from '../../assets/loginbg.png'
 
 export const HomeContainer = styled.div`
-  background-image: url("${backgroundImg}");
   padding-top: 20px;
   padding-bottom: 50px;
   width: 100%;
   z-index: 1;
 `;
 
+export const HomePageBackground = styled.div` 
+  z-index: -1;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  background-image: url("${backgroundImg}");
+`;
+
 export const HomeContentContainer = styled.div`
+  z-index: 2;
   width: 90%;
   background-color: ${BackgroundColor};
   margin: 0 auto;

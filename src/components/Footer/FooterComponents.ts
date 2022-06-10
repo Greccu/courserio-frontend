@@ -3,6 +3,12 @@ import { PrimaryColor, SecondaryColor } from "../../utils/theme";
 
 export const FooterContainer = styled.footer`
   background-color: ${PrimaryColor};
+  z-index: 100;
+  position: relative;
+  /* bottom: 0; */
+  /* width: 100%; */
+  /* margin-bottom: 0; */
+  /* padding: 0 */
 `;
 
 export const FooterWrap = styled.div`

@@ -5,12 +5,16 @@ export const SlideshowContainer = styled.div`
   margin: 0 auto 10px;
   overflow: hidden;
   max-width: 60%;
-
+  z-index: 50;
+  #child{
+    z-index: 50;
+  }
 `
 
 export const SlideshowSlider = styled.div`
   white-space: nowrap;
   transition: ease 1000ms;
+  z-index: 50;
 `
 
 export const Slide = styled.div`
@@ -24,6 +28,7 @@ export const Slide = styled.div`
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  z-index: 50;
 `
 
 export const SlideTitle = styled.a`
@@ -46,6 +51,7 @@ export const SlideTitle = styled.a`
   &:focus {
     color: ${Fadedx2SecondaryColor};
   }
+
 `
 
 export const SlideshowDots = styled.div`

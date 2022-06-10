@@ -4,8 +4,9 @@ import { AccentColor, BackgroundColor, FadedSecondaryColor, Fadedx2SecondaryColo
 export const CoursePageBackground = styled.div` 
   z-index: 0;
   height: 100%;
+  /* width: 1920px; */
   width: 100%;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   background: ${BackgroundColor};

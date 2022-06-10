@@ -7,7 +7,7 @@ import { PagedResult } from "../../types/global";
 import { apiClient } from "../../utils/apiClient";
 import { SecondaryColor } from "../../utils/theme";
 import CourseMiniature from "../Public/courseMiniature";
-import { CourseMiniatureContainer, CourseMiniatureContent, CourseMiniatureCreatorImage, CourseMiniatureImage, CourseMiniatureInfo, CourseMiniatureTitle, CoursesContainer, HomeContainer, HomeContentContainer } from "./HomeComponents";
+import { CourseMiniatureContainer, CourseMiniatureContent, CourseMiniatureCreatorImage, CourseMiniatureImage, CourseMiniatureInfo, CourseMiniatureTitle, CoursesContainer, HomeContainer, HomeContentContainer, HomePageBackground } from "./HomeComponents";
 import Slideshow from "./slideshow";
 
 const PAGE_SIZE = 8;
