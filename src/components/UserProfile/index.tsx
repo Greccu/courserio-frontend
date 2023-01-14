@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
-import { UserProfileDto } from "../../types/types";
 import { apiClient } from "../../utils/apiClient";
 import PageContainer from "../PageContainer";
 import { AboutMe, FeaturedCourse, FeaturedCourseMainContent, FeaturedCourseMiniature, FeaturedCourseTitle, MainInformation, ProfileContainer, ProfileContent, ProfileContentTitle, ProfileHeader, ProfileInformation, ProfileInformationP, ProfilePicture } from "./UserProfileComponents";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { faGenderless, faBirthdayCake, faVenusMars, faPhone, faMailBulk, faFaucet, faStar} from "@fortawesome/free-solid-svg-icons";
-import Rating from "react-rating";
+import { UserProfileDto } from "../../types/user";
+import { Rating } from "@mui/material";
+import { AccentColor } from "../../utils/theme";
 
 
 const UserProfile = () => {
@@ -15,7 +16,7 @@ const UserProfile = () => {
   const [userProfile, setUserProfile] = useState<UserProfileDto>();
   const getProfile = async () => {
     try {
-			const res = await apiClient.get("users/"+id, {
+			const res = await apiClient.get("user/"+id, {
 			});
 			const user = res.data;
 			setUserProfile(user);
@@ -83,13 +84,24 @@ const UserProfile = () => {
                 <FeaturedCourse>
                   <FeaturedCourseMainContent>
                     <FeaturedCourseTitle>{userProfile?.featuredCourse.title}</FeaturedCourseTitle>
-                    <Rating 
-                      initialRating={3.7} 
-                      readonly={true} 
-                    /> <br/>
+                    <div style = {{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "left",
+                      width: "100%"
+                    }}>
+                      <Rating 
+                        value={userProfile.featuredCourse.averageRating}
+                        readOnly
+                      /> <span style={{
+                        color:AccentColor
+                      }}>
+                        {userProfile.featuredCourse.averageRating}
+                      </span><br/></div>
+                    
                     <>{userProfile?.featuredCourse.description}</>
                   </FeaturedCourseMainContent>
-                  <FeaturedCourseMiniature imageUrl={userProfile?.featuredCourse.miniatureImage}/>
+                  <FeaturedCourseMiniature imageUrl={userProfile?.featuredCourse.miniatureImage} href={"/course/"+userProfile.featuredCourse.id}/>
                 </FeaturedCourse>
               </>:
              <></>

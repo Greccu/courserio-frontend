@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useSnackbar } from "notistack";
 import { setegid } from "process";
 import { useState } from "react";
 import { useHistory } from "react-router";
@@ -12,13 +13,14 @@ export const useUser = () => {
     const history = useHistory();
 
     const [userInfo,setUserInfo] = useState({})
+  
 
     // const [user, setUser] = useState({ email: "", uid: 0 });
     const [error, setError] = useState("");
     const [pageToDisplay, setPageToDisplay] = useState("login");
 
     const logIn = async (details : any) => {
-        let url = BackendUrl + "users/login";
+        let url = BackendUrl + "user/login";
         
         const config = {
           headers: {
@@ -41,8 +43,6 @@ export const useUser = () => {
               profilePicture: res.data.profilePicture,
               role: "user"
             });
-            // console.log(userObj);
-            // console.log(res.data);
             const parsedUserObj = JSON.parse(userObj)
             localStorage.setItem("JWTToken", token);
             localStorage.setItem("userInfo", userObj);

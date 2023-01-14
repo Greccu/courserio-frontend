@@ -1,2 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Shizuru&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300&display=swap');
+
+div.MuiButtonBase-root.MuiChip-root.MuiChip-filled.MuiChip-sizeMedium.MuiChip-colorDefault.MuiChip-deletable.MuiChip-deletableColorDefault.MuiChip-filledDefault.MuiAutocomplete-tag.MuiAutocomplete-tagSizeMedium.css-1k430x0-MuiButtonBase-root-MuiChip-root{
+  background-color: #0652DD;
+  font-weight: bold;
+}
+
+#root > div > form > div:nth-child(7) > div > div:nth-child(4) > div > div.ql-toolbar.ql-snow{
+  color:white;
+  background-color: #ffeaa7;
+  border-radius: 5px 5px 0px 0px ;
+  margin-top: 10px;
+}

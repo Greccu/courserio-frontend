@@ -1,19 +1,10 @@
+import { useSnackbar } from 'notistack';
 import React, { useEffect, useRef, useState } from 'react';
-import { CourseListDto } from '../../types/types';
+import { CourseDto } from '../../types/course';
 import { apiClient } from '../../utils/apiClient';
 import { Slide, SlideshowContainer, SlideshowDot, SlideshowDots, SlideshowSlider, SlideTitle } from './SlideshowComponents';
 
-const mockCourses:CourseListDto[] = [{
-  coverImage: "https://wallpapercave.com/wp/wp2118412.jpg",
-  title: "TestCourse1",
-},{
-  coverImage: "https://wallpapercave.com/wp/wp2118405.jpg",
-  title: "TestCourse2",
-},{
-  coverImage: "https://4.bp.blogspot.com/-HwZNTdeK958/XEiwRt667sI/AAAAAAAABHQ/ulbNDRd1iYcIa5eIrYwxf1L_alZxQR7jwCKgBGAs/w3840-h1600-c/polygons-abstract-colorful-art-32-8k.jpg",
-  title: "TestCourse3",
-}
-];
+const mockCourses:CourseDto[] = [];
 const delay = 10000;
 
 const Slideshow = () => {
@@ -22,7 +13,8 @@ const Slideshow = () => {
 		getHomeCourses();
 	}, []);
 
-  const [courses, setCourses] = useState<CourseListDto[]>(mockCourses)
+  const { enqueueSnackbar } = useSnackbar();
+  const [courses, setCourses] = useState<CourseDto[]>(mockCourses)
   const [index, setIndex] = useState(0);
   const timeoutRef = useRef<any>(null);
   const [isHovered, setHovered] = useState<boolean>(false);
@@ -50,12 +42,13 @@ const Slideshow = () => {
 
   const getHomeCourses = async () => {
     try {
-			const res = await apiClient.get("courses/home", {
+			const res = await apiClient.get("course/home", {
 			});
 			const courses = res.data;
 			
 			setCourses(courses);
 		} catch (e) {
+      enqueueSnackbar("An error occurred!", {variant:"error"});
 			console.log(e);
 		}
   }
@@ -80,11 +73,11 @@ const Slideshow = () => {
     <>
       <SlideshowContainer>
         <SlideshowSlider
-          style={{ transform: `translate3d(${-index * 100}%, 0, 0)` }}
+          style={{ transform: `translate3d(${-index * 90 + 5}%, 0, 0)` }}
         >
-          {courses.map((course, index) => (
+          {courses.map((course, i) => (
             <Slide
-              key={index}
+              key={i}
               style={{ backgroundImage: `url(${course.coverImage})` }}
             >
               <SlideTitle
